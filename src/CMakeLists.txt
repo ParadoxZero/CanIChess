@@ -9,6 +9,14 @@ set(SOURCE_FILES
 
 # Add source to this project's executable.
 add_executable (CanIChess ${SOURCE_FILES})
-target_link_libraries(${PROJECT_NAME} PRIVATE sfml-window)
+
+add_subdirectory("chess_engine")
+
+set(LINK_TARGETS
+	sfml-window
+	chess_engine
+)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${LINK_TARGETS})
+
 
 # TODO: Add tests and install targets if needed.
