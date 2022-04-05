@@ -10,7 +10,7 @@ include_directories(
 )
 
 # Include sub-projects.
-add_subdirectory ("CanIChess")
+add_subdirectory ("src")
 
 set(BUILD_SHARED_LIBS FALSE)
 add_subdirectory("deps/sfml")

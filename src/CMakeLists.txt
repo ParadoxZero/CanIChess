@@ -3,8 +3,12 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
+set(SOURCE_FILES 
+	main.cpp
+)
+
 # Add source to this project's executable.
-add_executable (CanIChess "CanIChess.cpp" "CanIChess.h")
+add_executable (CanIChess ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-window)
 
 # TODO: Add tests and install targets if needed.
