@@ -25,6 +25,9 @@ jobs:
     
     - name: Update Git Submodules
       run: git submodule update
+      
+    - name: Install Dependencies
+      run: 	sudo apt-get install libpthread-stubs0-dev libgl1-mesa-dev libx11-dev libxrandr-dev libfreetype6-dev libglew1.5-dev libjpeg8-dev libsndfile1-dev libopenal-dev  libudev-dev
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
