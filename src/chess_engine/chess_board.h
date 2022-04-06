@@ -1,21 +1,20 @@
 #pragma once
 
 #include "chess_piece.h"
-#include "tile_state.h"
 
 #include <stdint.h>
+#include <memory>
 
 namespace chess_engine
 {
-	class ChessBoard : private Tile::Client
+	class ChessBoard
 	{
 	public:
 		const uint8_t BOARD_SIZE = 8;
 
-		void getState(Tile state[][8]) { state = _boardState; }
+		void getState(std::unique_ptr<ChessPiece> state[][8]) { state = _state; }
 
 	private:
-		Tile _boardState[8][8];
-
+		std::unique_ptr<ChessPiece> _state[8][8];
 	};
 }

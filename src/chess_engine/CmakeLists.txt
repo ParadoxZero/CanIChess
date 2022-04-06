@@ -4,7 +4,6 @@ set(TARGET_NAME chess_engine)
 
 set(BASE_SOURCE_FILES
 	"base/cordinate.h"
-	"base/chess_move.h"
 )
 
 set(SOURCE_FILES
@@ -12,7 +11,7 @@ set(SOURCE_FILES
 	"chess_board.h"
 	"chess_board.cc"
 	"chess_piece.h"
-	"tile_state.h" 
-	"chess_piece_factory.cpp")
+	"chess_piece_factory.cpp"
+)
 
 add_library(chess_engine STATIC ${SOURCE_FILES})
