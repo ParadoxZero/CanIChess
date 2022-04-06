@@ -1,4 +1,4 @@
-#include "King.h"
+#include "king.h"
 
 namespace chess_engine
 {
