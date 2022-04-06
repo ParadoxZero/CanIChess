@@ -1,4 +1,6 @@
 # Can I Chess?
+[![CMake](https://github.com/ParadoxZero/CanIChess/actions/workflows/cmake.yml/badge.svg)](https://github.com/ParadoxZero/CanIChess/actions/workflows/cmake.yml)
+
 A simple local chess game made using C++ and SFML
 
 ## Getting Started
