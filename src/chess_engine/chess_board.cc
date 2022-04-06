@@ -25,10 +25,13 @@ namespace chess_engine
         }
     {
         SubscribeToTurnNotification(this);
+        SyncBitmapCache();
     }
-    void ChessBoard::getColormap(PieceColor map[][8])
+    std::array<std::array<int8_t, 8>, 8> ChessBoard::getColormap()
     {
+        return _cachedBitmap;
     }
+
     PieceColor ChessBoard::getCurrentColor()
     {
         return PieceColor();
@@ -53,6 +56,24 @@ namespace chess_engine
     }
     bool ChessBoard::NotifyNextTurn()
     {
-        return false;
+        return true;
+    }
+
+    void ChessBoard::SyncBitmapCache()
+    {
+        for (int i = 0; i < 8; ++i)
+        {
+            for (int j = 0; j < 8; ++j)
+            {
+                if (_state[i][j]->getType() != Empty)
+                {
+                    _cachedBitmap[i][j] = _state[i][j]->getColor() == White ? BITMAP_WHITE : BITMAP_BLACK;
+                }
+                else
+                {
+                    _cachedBitmap[i][j] = BITMAP_EMPTY;
+                }
+            }
+        }
     }
 };

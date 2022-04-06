@@ -34,6 +34,7 @@ namespace chess_engine
 		PieceColor getColor() { return _color; }
 
 		virtual std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position, ChessBoard& board) = 0;
+		virtual bool validateMove(base::Cordinate from, base::Cordinate to) { return false; };
 	private:
 		PieceColor _color;
 		ChessPieceType _type;

@@ -58,6 +58,22 @@ namespace chess_engine
                 EXPECT_EQ(boardState.type, boardReference[i][j].type);
             }
         }
+
+        std::array<std::array<int8_t, 8>, 8> map = board.getColormap();
+
+        for (int i = 0; i < 8; ++i)
+        {
+            for (int j = 0; j < 8; ++j)
+            {
+                if (boardReference[i][j].type == Empty)
+                {
+                    EXPECT_EQ(map[i][j], ChessBoard::BITMAP_EMPTY);
+                }
+                else {
+                    EXPECT_EQ(map[i][j], boardReference[i][j].color == PieceColor::White? ChessBoard::BITMAP_WHITE : ChessBoard::BITMAP_BLACK);
+                }
+            }
+        }
     }
 
     TEST_F(ChessBoardTest, TestObserverMechanics)
