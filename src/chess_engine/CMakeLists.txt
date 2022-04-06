@@ -10,6 +10,18 @@ set(SOURCE_FILES
 	"chess_piece_factory.cpp"
 	"pieces/king.h"
 	"pieces/king.cc"
+	"pieces/queen.h"
+	"pieces/queen.cc"
+	"pieces/bishop.h"
+	"pieces/bishop.cc"
+	"pieces/knight.h"
+	"pieces/knight.cc"
+	"pieces/rook.h"
+	"pieces/rook.cc"
+	"pieces/pawn.h"
+	"pieces/pawn.cc"
+	"pieces/empty.h"
+	"pieces/empty.cc"
 )
 
 add_library(chess_engine STATIC ${SOURCE_FILES})

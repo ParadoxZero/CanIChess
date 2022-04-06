@@ -3,10 +3,11 @@
 namespace chess_engine {
 namespace pieces 
 {
-	class King : public ChessPiece
+	class Rook : public ChessPiece
 	{
 	public:
-		King(PieceColor color) : ChessPiece(ChessPieceType::King, color) {}
+
+		Rook(PieceColor color) : ChessPiece(ChessPieceType::Rook, color) {}
 		std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position, ChessBoard& board) override;
 	};
 }

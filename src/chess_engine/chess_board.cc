@@ -1,8 +1,28 @@
 #include "chess_board.h"
+#include "chess_piece.h"
+
+#include <memory>
+
+using namespace std;
+
+#define BLACK(a) ChessPieceFactory::createPiece(a, Black)
+#define WHITE(a) ChessPieceFactory::createPiece(a, White)
+#define EMPTY ChessPieceFactory::createPiece(Empty, White)
 
 namespace chess_engine
 {
-    ChessBoard::ChessBoard()
+
+    ChessBoard::ChessBoard() : 
+        _state {
+            {BLACK(Rook), BLACK(Bishop), BLACK(Knight), BLACK(Queen), BLACK(King), BLACK(Knight), BLACK(Bishop), BLACK(Rook)},
+            {BLACK(Pawn), BLACK(Pawn),   BLACK(Pawn),   BLACK(Pawn),  BLACK(Pawn), BLACK(Pawn),   BLACK(Pawn),   BLACK(Pawn)},
+            {EMPTY,       EMPTY,         EMPTY,         EMPTY,        EMPTY,       EMPTY,         EMPTY,         EMPTY},
+            {EMPTY,       EMPTY,         EMPTY,         EMPTY,        EMPTY,       EMPTY,         EMPTY,         EMPTY},
+            {EMPTY,       EMPTY,         EMPTY,         EMPTY,        EMPTY,       EMPTY,         EMPTY,         EMPTY},
+            {EMPTY,       EMPTY,         EMPTY,         EMPTY,        EMPTY,       EMPTY,         EMPTY,         EMPTY},
+            {WHITE(Pawn), WHITE(Pawn),   WHITE(Pawn),   WHITE(Pawn),  WHITE(Pawn), WHITE(Pawn),   WHITE(Pawn),   WHITE(Pawn)},
+            {WHITE(Rook), WHITE(Bishop), WHITE(Knight), WHITE(Queen), WHITE(King), WHITE(Knight), WHITE(Bishop), WHITE(Rook)},
+        }
     {
         SubscribeToTurnNotification(this);
     }

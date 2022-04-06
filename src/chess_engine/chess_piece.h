@@ -3,6 +3,7 @@
 #include "base/cordinate.h"
 
 #include <vector>
+#include <memory>
 
 namespace chess_engine 
 {
@@ -41,6 +42,6 @@ namespace chess_engine
 	class ChessPieceFactory
 	{
 	public:
-		static ChessPiece* createPiece(ChessPieceType, PieceColor);
+		static std::unique_ptr<ChessPiece> createPiece(ChessPieceType, PieceColor);
 	};
 }
