@@ -8,7 +8,7 @@ set(SOURCE_FILES
 	"chess_board.cc"
 	"chess_piece.h"
 	"chess_piece_factory.cpp"
-	"pieces/King.h"
+	"pieces/king.h"
 	"pieces/king.cc"
 )
 
