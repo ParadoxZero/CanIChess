@@ -6,8 +6,11 @@
 
 namespace chess_engine 
 {
+	class ChessBoard;
+
 	enum ChessPieceType 
 	{
+		Empty,
 		Pawn,
 		Rook,
 		Knight,
@@ -29,7 +32,7 @@ namespace chess_engine
 		ChessPieceType getType() { return _type; };
 		PieceColor getColor() { return _color; }
 
-		virtual std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position) = 0;
+		virtual std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position, ChessBoard& board) = 0;
 	private:
 		PieceColor _color;
 		ChessPieceType _type;
