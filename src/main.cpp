@@ -1,7 +1,7 @@
 ﻿// CanIChess.cpp : Defines the entry point for the application.
 //
 
-#include <SFML\Window.hpp>
+#include <SFML/Window.hpp>
 
 using namespace std;
 
