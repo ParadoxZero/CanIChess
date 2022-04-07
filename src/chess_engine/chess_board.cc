@@ -1,13 +1,15 @@
 #include "chess_board.h"
 #include "chess_piece.h"
+#include "../base/result.h"
 
 #include <memory>
 
 using namespace std;
+using namespace base;
 
 #define BLACK(a) ChessPieceFactory::createPiece(a, Black)
 #define WHITE(a) ChessPieceFactory::createPiece(a, White)
-#define EMPTY ChessPieceFactory::createPiece(Empty, White)
+#define EMPTY ChessPieceFactory::createEmpty()
 
 namespace chess_engine
 {
@@ -27,33 +29,63 @@ namespace chess_engine
         SubscribeToTurnNotification(this);
         SyncBitmapCache();
     }
+
     std::array<std::array<int8_t, 8>, 8> ChessBoard::getColormap()
     {
-        return _cachedBitmap;
+        return _cachedTritmap;
     }
 
     PieceColor ChessBoard::getCurrentColor()
     {
-        return PieceColor();
+        /* White always starts first, number of moves played so far
+            will always be even when it's White's turn. 
+            e.g.   turn number  history size
+                            1   0
+                            3   2
+                            5   4                                       
+            So no need to track turns seperately   */
+        return _moveHistory.size() % 2 == 0 ? White : Black;
     }
-    void ChessBoard::playMove(base::Cordinate from, base::Cordinate to)
+
+    Result ChessBoard::playMove(base::Cordinate from, base::Cordinate to)
     {
+        auto subject = _state[from.y][from.x].get();
+        if (subject->getColor() != getCurrentColor())
+        {
+            return Result::InvalidArgument;
+        }
+        if (!subject->isValidMove(from, to, _cachedTritmap))
+        {
+            return Result::InvalidArgument;
+        }
+
+        _state[to.y][to.x] = move(_state[from.y][from.x]);
+        _state[from.y][from.x] = ChessPieceFactory::createEmpty();
+        _moveHistory.push_back({ { from.x,from.y }, { to.x, to.y } });
+        _cachedTritmap[to.y][to.x] = subject->getColor() == White ? TRITMAP_WHITE : TRITMAP_BLACK;
+        _cachedTritmap[from.y][from.x] = TRITMAP_EMPTY;
+
+        return Result::Success;
     }
+
     std::vector<base::Cordinate> ChessBoard::getPossibleMoves(base::Cordinate from)
     {
         return std::vector<base::Cordinate>();
     }
+
     ChessBoard::ObserverRegistrationToken ChessBoard::SubscribeToTurnNotification(const IObserver *observer)
     {
         int index = _turnObservers.size();
         _turnObservers.push_back(observer);
         return index;
     }
+
     void ChessBoard::UnsubscribeToTurnNotification(ObserverRegistrationToken token)
     {
         auto oberverToRemove = _turnObservers.begin() + token;
         _turnObservers.erase(oberverToRemove);
     }
+
     bool ChessBoard::NotifyNextTurn()
     {
         return true;
@@ -67,11 +99,11 @@ namespace chess_engine
             {
                 if (_state[i][j]->getType() != Empty)
                 {
-                    _cachedBitmap[i][j] = _state[i][j]->getColor() == White ? BITMAP_WHITE : BITMAP_BLACK;
+                    _cachedTritmap[i][j] = _state[i][j]->getColor() == White ? TRITMAP_WHITE : TRITMAP_BLACK;
                 }
                 else
                 {
-                    _cachedBitmap[i][j] = BITMAP_EMPTY;
+                    _cachedTritmap[i][j] = TRITMAP_EMPTY;
                 }
             }
         }

@@ -11,6 +11,7 @@ add_executable(${BINARY} ${SOURCE_FILES})
 add_test(NAME ${BINARY} COMMAND ${BINARY})
 
 set(LINK_TARGETS
+	CanIChess
 	chess_engine
 	gtest
 	gmock

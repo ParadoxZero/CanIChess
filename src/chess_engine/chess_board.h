@@ -1,11 +1,13 @@
 #pragma once
 
 #include "chess_piece.h"
+#include "../base/result.h"
 
 #include <stdint.h>
 #include <memory>
 #include <vector>
 #include <array>
+#include "chess_tritmap.h"
 
 namespace chess_engine
 {
@@ -21,9 +23,6 @@ namespace chess_engine
     {
     public:
         typedef size_t ObserverRegistrationToken;
-        static const int8_t BITMAP_BLACK = -1;
-        static const int8_t BITMAP_WHITE = 1;
-        static const int8_t BITMAP_EMPTY = 0;
 
         ChessBoard();
 
@@ -33,7 +32,7 @@ namespace chess_engine
         std::array<std::array<int8_t,8>, 8> getColormap();
 
         PieceColor getCurrentColor();
-        void playMove(base::Cordinate from, base::Cordinate to);
+        base::Result playMove(base::Cordinate from, base::Cordinate to);
         std::vector<base::Cordinate> getPossibleMoves(base::Cordinate from);
 
         ObserverRegistrationToken SubscribeToTurnNotification(const IObserver *observer);
@@ -45,8 +44,9 @@ namespace chess_engine
         friend class ChessBoardTest;
 
         std::unique_ptr<ChessPiece> _state[8][8];
-        std::array<std::array<int8_t, 8>, 8> _cachedBitmap;
+        Tritmap _cachedTritmap;
         std::vector<const IObserver*> _turnObservers;
+        std::vector<std::pair<base::Cordinate, base::Cordinate>> _moveHistory;
 
         void SyncBitmapCache();
     };

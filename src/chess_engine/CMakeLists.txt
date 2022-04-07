@@ -3,7 +3,6 @@ cmake_minimum_required (VERSION 3.8)
 set(TARGET_NAME chess_engine)
 
 set(SOURCE_FILES
-	"base/cordinate.h"
 	"chess_board.h"
 	"chess_board.cc"
 	"chess_piece.h"
@@ -22,6 +21,6 @@ set(SOURCE_FILES
 	"pieces/pawn.cc"
 	"pieces/empty.h"
 	"pieces/empty.cc"
-)
+	"chess_tritmap.h")
 
 add_library(chess_engine STATIC ${SOURCE_FILES})

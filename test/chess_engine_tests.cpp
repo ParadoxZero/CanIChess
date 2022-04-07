@@ -2,6 +2,8 @@
 #include <gmock/gmock.h>
 
 #include "../src/chess_engine/chess_board.h"
+#include "../src/chess_engine/chess_tritmap.h"
+#include "../src/base/result.h"
 
 #define BLACK(a) {a, Black}
 #define WHITE(a) {a, White}
@@ -9,6 +11,8 @@
 
 namespace chess_engine
 {
+    using namespace chess_engine;
+
     struct Tile {
         ChessPieceType type;
         PieceColor color;
@@ -28,10 +32,15 @@ namespace chess_engine
     class ChessBoardTest : public ::testing::Test
     {
     public:
-        std::vector<const IObserver*>& getTurnObservers(chess_engine::ChessBoard &board) { return board._turnObservers; }
-        Tile getBoardState(chess_engine::ChessBoard &board,
+        std::vector<const IObserver*>& getTurnObservers(ChessBoard &board) { return board._turnObservers; }
+        Tile getBoardState(ChessBoard &board,
             int i, int j) {
             return Tile{board._state[i][j]->getType(), board._state[i][j]->getColor()};
+        }
+
+        size_t getBoardHistorySize(ChessBoard& board)
+        {
+            return board._moveHistory.size();
         }
     };
 
@@ -67,13 +76,66 @@ namespace chess_engine
             {
                 if (boardReference[i][j].type == Empty)
                 {
-                    EXPECT_EQ(map[i][j], ChessBoard::BITMAP_EMPTY);
+                    EXPECT_EQ(map[i][j], chess_engine::TRITMAP_EMPTY);
                 }
                 else {
-                    EXPECT_EQ(map[i][j], boardReference[i][j].color == PieceColor::White? ChessBoard::BITMAP_WHITE : ChessBoard::BITMAP_BLACK);
+                    EXPECT_EQ(map[i][j], boardReference[i][j].color == PieceColor::White? chess_engine::TRITMAP_WHITE : chess_engine::TRITMAP_BLACK);
                 }
             }
         }
+    }
+
+    TEST_F(ChessBoardTest, TestPlayMove)
+    {
+        ChessBoard board;
+
+        // Valid Move - moving a white tile in first move
+        EXPECT_EQ(board.getCurrentColor(), White);
+        EXPECT_NE(board.getCurrentColor(), Black);
+        EXPECT_EQ(board.playMove({ 0,6 }, { 0,5 }), base::Result::Success);
+        EXPECT_EQ(getBoardHistorySize(board), 1);
+        
+        Tritmap map = board.getColormap();
+        EXPECT_EQ(map[5][0], TRITMAP_WHITE);
+        EXPECT_EQ(map[6][0], TRITMAP_EMPTY);
+
+        // Invalid Move - Moving white tile while black's turn
+        EXPECT_EQ(board.playMove({ 1,6 }, { 1,5 }), base::Result::InvalidArgument);
+        EXPECT_EQ(getBoardHistorySize(board), 1);
+        map = board.getColormap();
+
+        EXPECT_EQ(map[5][1], TRITMAP_EMPTY);
+        EXPECT_EQ(map[6][1], TRITMAP_WHITE);
+
+        // Valid Move - Moving black tile
+        EXPECT_EQ(board.playMove({ 0,1 }, { 0,2 }), base::Result::Success);
+        EXPECT_EQ(getBoardHistorySize(board), 2);
+
+        map = board.getColormap();
+        EXPECT_EQ(map[1][0], TRITMAP_EMPTY);
+        EXPECT_EQ(map[2][0], TRITMAP_BLACK);
+
+        // Valid Move - Moving white again in next turn
+        EXPECT_EQ(board.getCurrentColor(), White);
+        EXPECT_NE(board.getCurrentColor(), Black);
+        EXPECT_EQ(board.playMove({ 1,6 }, { 1,5 }), base::Result::Success);
+        EXPECT_EQ(getBoardHistorySize(board), 3);
+
+        map = board.getColormap();
+        EXPECT_EQ(map[5][1], TRITMAP_WHITE);
+        EXPECT_EQ(map[6][1], TRITMAP_EMPTY);
+
+        // invalid Move - moving a black tile in first move
+        ChessBoard board2;
+        EXPECT_EQ(board2.getCurrentColor(), White);
+        EXPECT_NE(board2.getCurrentColor(), Black);
+        EXPECT_EQ(board2.playMove({ 0,1 }, { 0,2 }), base::Result::InvalidArgument);
+        EXPECT_EQ(getBoardHistorySize(board2), 0);
+
+        map = board2.getColormap();
+        EXPECT_EQ(map[1][0], TRITMAP_BLACK);
+        EXPECT_EQ(map[2][0], TRITMAP_EMPTY);
+
     }
 
     TEST_F(ChessBoardTest, TestObserverMechanics)

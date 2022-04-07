@@ -1,6 +1,7 @@
 #pragma once
 
-#include "base/cordinate.h"
+#include "../base/cordinate.h"
+#include "chess_tritmap.h"
 
 #include <vector>
 #include <memory>
@@ -34,7 +35,7 @@ namespace chess_engine
 		PieceColor getColor() { return _color; }
 
 		virtual std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position, ChessBoard& board) = 0;
-		virtual bool validateMove(base::Cordinate from, base::Cordinate to) { return false; };
+		virtual bool isValidMove(base::Cordinate from, base::Cordinate to, Tritmap &map) { return true; /*Incomplete - under development*/ };
 	private:
 		PieceColor _color;
 		ChessPieceType _type;
@@ -44,5 +45,7 @@ namespace chess_engine
 	{
 	public:
 		static std::unique_ptr<ChessPiece> createPiece(ChessPieceType, PieceColor);
+		static std::unique_ptr<ChessPiece> ChessPieceFactory::createEmpty();
+
 	};
 }
