@@ -75,7 +75,7 @@ namespace chess_engine
 
     ChessBoard::ObserverRegistrationToken ChessBoard::SubscribeToTurnNotification(const IObserver *observer)
     {
-        int index = _turnObservers.size();
+        size_t index = _turnObservers.size();
         _turnObservers.push_back(observer);
         return index;
     }
