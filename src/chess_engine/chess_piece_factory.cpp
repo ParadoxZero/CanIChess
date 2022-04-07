@@ -23,7 +23,7 @@ namespace chess_engine
 		case ChessPieceType::Rook:		return std::unique_ptr<ChessPiece>(new pieces::Rook(color));
 		case ChessPieceType::Pawn:		return std::unique_ptr<ChessPiece>(new pieces::Pawn(color));
 		default:
-			break;
+			return std::unique_ptr<ChessPiece>(new pieces::Empty());
 		}
 	}
 

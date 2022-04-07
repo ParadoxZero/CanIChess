@@ -45,7 +45,7 @@ namespace chess_engine
 	{
 	public:
 		static std::unique_ptr<ChessPiece> createPiece(ChessPieceType, PieceColor);
-		static std::unique_ptr<ChessPiece> ChessPieceFactory::createEmpty();
+		static std::unique_ptr<ChessPiece> createEmpty();
 
 	};
 }
