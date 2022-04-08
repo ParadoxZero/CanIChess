@@ -30,16 +30,7 @@ Please find the variation of this for whatever distro you are using.
 1. Use CMake to generate build files. (you can use your prefered build system instead of ninja by changing the -G option)
 	```
 	cmake -B out/build/ -G ninja
-	```
-2. Change to the build dir
-	```
 	cd out/build
-	```
-3. Build 
-	```
 	ninja CanIChess
-	```
-4. Run
-	```
-	src\CanIChess.exe
+	src\game.exe [or "game" in linux/mac]
 	```
