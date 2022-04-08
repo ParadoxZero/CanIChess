@@ -19,6 +19,7 @@ set(LINK_TARGETS
 	sfml-window
 	chess_engine
 	CanIChess
+	imgui
 )
 target_link_libraries(game PRIVATE ${LINK_TARGETS})
 
