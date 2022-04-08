@@ -7,6 +7,9 @@ project ("CanIChess")
 
 include(CTest)
 
+set (CMAKE_CXX_STANDARD 17)
+set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
+
 include_directories(
 	"deps/sfml/include"
 	"deps/gtest/googletest/include"
