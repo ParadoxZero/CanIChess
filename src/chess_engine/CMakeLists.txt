@@ -21,6 +21,7 @@ set(SOURCE_FILES
 	"pieces/pawn.cc"
 	"pieces/empty.h"
 	"pieces/empty.cc"
-	"chess_tritmap.h")
+	"chess_tritmap.h" 
+	"pieces/utils.h")
 
 add_library(chess_engine STATIC ${SOURCE_FILES})

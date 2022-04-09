@@ -11,4 +11,5 @@ namespace base {
 
     Cordinate& operator+(Cordinate lhs, Cordinate rhs);
     Cordinate& operator-(Cordinate lhs, Cordinate rhs);
+    bool operator==(const Cordinate& lhs, const Cordinate& rhs);
 }
