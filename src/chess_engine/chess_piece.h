@@ -34,9 +34,12 @@ namespace chess_engine
 		ChessPieceType getType() { return _type; };
 		PieceColor getColor() { return _color; }
 
-		virtual std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position, ChessBoard& board) = 0;
+		virtual std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position, Tritmap& map) = 0;
 		virtual bool isValidMove(base::Cordinate from, base::Cordinate to, Tritmap &map) { return true; /*Incomplete - under development*/ };
 	private:
+
+		friend class ChessPiecesTest;
+
 		PieceColor _color;
 		ChessPieceType _type;
 	};

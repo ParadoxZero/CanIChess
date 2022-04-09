@@ -7,7 +7,7 @@ set(SOURCE_FILES
 	base/cordinate.h
 	base/result.h
 	base/base.cpp
-)
+ "base/cordinate.cpp")
 
 # Add source to this project's executable.
 add_executable (game "main.cpp")

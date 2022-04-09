@@ -48,14 +48,14 @@ namespace chess_engine
     {
         chess_engine::ChessBoard board;
         Tile boardReference[8][8] = {
-            {BLACK(Rook), BLACK(Bishop), BLACK(Knight), BLACK(Queen), BLACK(King), BLACK(Knight), BLACK(Bishop), BLACK(Rook)},
-            {BLACK(Pawn), BLACK(Pawn),   BLACK(Pawn),   BLACK(Pawn),  BLACK(Pawn), BLACK(Pawn),   BLACK(Pawn),   BLACK(Pawn)},
-            {EMPTY,       EMPTY,         EMPTY,         EMPTY,        EMPTY,       EMPTY,         EMPTY,         EMPTY},
-            {EMPTY,       EMPTY,         EMPTY,         EMPTY,        EMPTY,       EMPTY,         EMPTY,         EMPTY},
-            {EMPTY,       EMPTY,         EMPTY,         EMPTY,        EMPTY,       EMPTY,         EMPTY,         EMPTY},
-            {EMPTY,       EMPTY,         EMPTY,         EMPTY,        EMPTY,       EMPTY,         EMPTY,         EMPTY},
-            {WHITE(Pawn), WHITE(Pawn),   WHITE(Pawn),   WHITE(Pawn),  WHITE(Pawn), WHITE(Pawn),   WHITE(Pawn),   WHITE(Pawn)},
-            {WHITE(Rook), WHITE(Bishop), WHITE(Knight), WHITE(Queen), WHITE(King), WHITE(Knight), WHITE(Bishop), WHITE(Rook)},
+            {BLACK(Rook),   BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  BLACK(Rook)},
+            {BLACK(Bishop), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  BLACK(Bishop)},
+            {BLACK(Knight), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  BLACK(Knight)},
+            {BLACK(King),   BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  BLACK(Queen)},
+            {BLACK(Queen),  BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  BLACK(King)},
+            {BLACK(Knight), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  BLACK(Knight)},
+            {BLACK(Bishop), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  BLACK(Bishop)},
+            {BLACK(Rook),   BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  BLACK(Rook)},
         };
 
         for (int i = 0; i < 8; ++i)
@@ -92,28 +92,28 @@ namespace chess_engine
         // Valid Move - moving a white tile in first move
         EXPECT_EQ(board.getCurrentColor(), White);
         EXPECT_NE(board.getCurrentColor(), Black);
-        EXPECT_EQ(board.playMove({ 0,6 }, { 0,5 }), base::Result::Success);
+        EXPECT_EQ(board.playMove({ 0,6 }, { 0, 5}), base::Result::Success);
         EXPECT_EQ(getBoardHistorySize(board), 1);
         
         Tritmap map = board.getColormap();
-        EXPECT_EQ(map[5][0], TRITMAP_WHITE);
-        EXPECT_EQ(map[6][0], TRITMAP_EMPTY);
+        EXPECT_EQ(map[0][5], TRITMAP_WHITE);
+        EXPECT_EQ(map[0][6], TRITMAP_EMPTY);
 
         // Invalid Move - Moving white tile while black's turn
         EXPECT_EQ(board.playMove({ 1,6 }, { 1,5 }), base::Result::InvalidArgument);
         EXPECT_EQ(getBoardHistorySize(board), 1);
         map = board.getColormap();
 
-        EXPECT_EQ(map[5][1], TRITMAP_EMPTY);
-        EXPECT_EQ(map[6][1], TRITMAP_WHITE);
+        EXPECT_EQ(map[1][5], TRITMAP_EMPTY);
+        EXPECT_EQ(map[1][6], TRITMAP_WHITE);
 
         // Valid Move - Moving black tile
         EXPECT_EQ(board.playMove({ 0,1 }, { 0,2 }), base::Result::Success);
         EXPECT_EQ(getBoardHistorySize(board), 2);
 
         map = board.getColormap();
-        EXPECT_EQ(map[1][0], TRITMAP_EMPTY);
-        EXPECT_EQ(map[2][0], TRITMAP_BLACK);
+        EXPECT_EQ(map[0][1], TRITMAP_EMPTY);
+        EXPECT_EQ(map[0][2], TRITMAP_BLACK);
 
         // Valid Move - Moving white again in next turn
         EXPECT_EQ(board.getCurrentColor(), White);
@@ -122,8 +122,8 @@ namespace chess_engine
         EXPECT_EQ(getBoardHistorySize(board), 3);
 
         map = board.getColormap();
-        EXPECT_EQ(map[5][1], TRITMAP_WHITE);
-        EXPECT_EQ(map[6][1], TRITMAP_EMPTY);
+        EXPECT_EQ(map[1][5], TRITMAP_WHITE);
+        EXPECT_EQ(map[1][6], TRITMAP_EMPTY);
 
         // invalid Move - moving a black tile in first move
         ChessBoard board2;
@@ -133,8 +133,8 @@ namespace chess_engine
         EXPECT_EQ(getBoardHistorySize(board2), 0);
 
         map = board2.getColormap();
-        EXPECT_EQ(map[1][0], TRITMAP_BLACK);
-        EXPECT_EQ(map[2][0], TRITMAP_EMPTY);
+        EXPECT_EQ(map[0][1], TRITMAP_BLACK);
+        EXPECT_EQ(map[0][2], TRITMAP_EMPTY);
 
     }
 
