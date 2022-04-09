@@ -16,14 +16,14 @@ namespace chess_engine
 
     ChessBoard::ChessBoard() : 
         _state {
-            {BLACK(Rook), BLACK(Bishop), BLACK(Knight), BLACK(Queen), BLACK(King), BLACK(Knight), BLACK(Bishop), BLACK(Rook)},
-            {BLACK(Pawn), BLACK(Pawn),   BLACK(Pawn),   BLACK(Pawn),  BLACK(Pawn), BLACK(Pawn),   BLACK(Pawn),   BLACK(Pawn)},
-            {EMPTY,       EMPTY,         EMPTY,         EMPTY,        EMPTY,       EMPTY,         EMPTY,         EMPTY},
-            {EMPTY,       EMPTY,         EMPTY,         EMPTY,        EMPTY,       EMPTY,         EMPTY,         EMPTY},
-            {EMPTY,       EMPTY,         EMPTY,         EMPTY,        EMPTY,       EMPTY,         EMPTY,         EMPTY},
-            {EMPTY,       EMPTY,         EMPTY,         EMPTY,        EMPTY,       EMPTY,         EMPTY,         EMPTY},
-            {WHITE(Pawn), WHITE(Pawn),   WHITE(Pawn),   WHITE(Pawn),  WHITE(Pawn), WHITE(Pawn),   WHITE(Pawn),   WHITE(Pawn)},
-            {WHITE(Rook), WHITE(Bishop), WHITE(Knight), WHITE(Queen), WHITE(King), WHITE(Knight), WHITE(Bishop), WHITE(Rook)},
+            {BLACK(Rook),   BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  BLACK(Rook)},
+            {BLACK(Bishop), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  BLACK(Bishop)},
+            {BLACK(Knight), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  BLACK(Knight)},
+            {BLACK(King),   BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  BLACK(Queen)},
+            {BLACK(Queen),  BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  BLACK(King)},
+            {BLACK(Knight), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  BLACK(Knight)},
+            {BLACK(Bishop), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  BLACK(Bishop)},
+            {BLACK(Rook),   BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  BLACK(Rook)},
         }
     {
         SubscribeToTurnNotification(this);
@@ -49,7 +49,7 @@ namespace chess_engine
 
     Result ChessBoard::playMove(base::Cordinate from, base::Cordinate to)
     {
-        auto subject = _state[from.y][from.x].get();
+        auto subject = _state[from.x][from.y].get();
         if (subject->getColor() != getCurrentColor())
         {
             return Result::InvalidArgument;
@@ -59,11 +59,11 @@ namespace chess_engine
             return Result::InvalidArgument;
         }
 
-        _state[to.y][to.x] = move(_state[from.y][from.x]);
-        _state[from.y][from.x] = ChessPieceFactory::createEmpty();
+        _state[to.x][to.y] = move(_state[from.x][from.y]);
+        _state[from.x][from.y] = ChessPieceFactory::createEmpty();
         _moveHistory.push_back({ { from.x,from.y }, { to.x, to.y } });
-        _cachedTritmap[to.y][to.x] = subject->getColor() == White ? TRITMAP_WHITE : TRITMAP_BLACK;
-        _cachedTritmap[from.y][from.x] = TRITMAP_EMPTY;
+        _cachedTritmap[to.x][to.y] = subject->getColor() == White ? TRITMAP_WHITE : TRITMAP_BLACK;
+        _cachedTritmap[from.x][from.y] = TRITMAP_EMPTY;
 
         return Result::Success;
     }
