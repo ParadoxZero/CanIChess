@@ -5,7 +5,10 @@
 namespace base {
     struct Cordinate
     {
-        uint8_t x;
-        uint8_t y;
+        int8_t x;
+        int8_t y;
     };
+
+    Cordinate& operator+(Cordinate lhs, Cordinate rhs);
+    Cordinate& operator-(Cordinate lhs, Cordinate rhs);
 }
