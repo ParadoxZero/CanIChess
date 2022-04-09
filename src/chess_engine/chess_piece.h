@@ -37,6 +37,9 @@ namespace chess_engine
 		virtual std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position, Tritmap& map) = 0;
 		virtual bool isValidMove(base::Cordinate from, base::Cordinate to, Tritmap &map) { return true; /*Incomplete - under development*/ };
 	private:
+
+		friend class ChessPiecesTest;
+
 		PieceColor _color;
 		ChessPieceType _type;
 	};

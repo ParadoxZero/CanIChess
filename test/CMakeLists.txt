@@ -4,7 +4,7 @@ set(BINARY ${CMAKE_PROJECT_NAME}_test)
 
 set(SOURCE_FILES 
 	test_main.cpp
- "chess_engine_tests.cpp")
+ "chess_engine_tests.cpp" "chess_piece_tests.cpp")
 
 add_executable(${BINARY} ${SOURCE_FILES})
 
