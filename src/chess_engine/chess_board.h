@@ -38,8 +38,6 @@ namespace chess_engine
         ObserverRegistrationToken SubscribeToTurnNotification(const IObserver *observer);
         void UnsubscribeToTurnNotification(ObserverRegistrationToken token);
 
-        bool NotifyNextTurn() override;
-
     private:
         friend class ChessBoardTest;
 
@@ -49,5 +47,6 @@ namespace chess_engine
         std::vector<std::pair<base::Cordinate, base::Cordinate>> _moveHistory;
 
         void SyncBitmapCache();
+        bool NotifyNextTurn() override;
     };
 }
