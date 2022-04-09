@@ -19,7 +19,7 @@ include_directories(
 add_subdirectory ("src")
 add_subdirectory ("test")
 
-set(BUILD_SHARED_LIBS FALSE)
+set(BUILD_SHARED_LIBS OFF)
 add_subdirectory("deps/sfml")
 
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
@@ -27,6 +27,6 @@ add_subdirectory("deps/gtest")
 
 add_subdirectory("deps/imgui")
 
-set(IMGUI_SFML_FIND_SFML FALSE)
+set(IMGUI_SFML_FIND_SFML OFF)
 set(IMGUI_DIR "../imgui")
 add_subdirectory("deps/imgui-sfml")
