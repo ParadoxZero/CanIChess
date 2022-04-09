@@ -8,7 +8,7 @@ namespace pieces
 	public:
 
 		Bishop(PieceColor color) : ChessPiece(ChessPieceType::Bishop, color) {}
-		std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position, ChessBoard& board) override;
+		std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position, Tritmap& map) override;
 	};
 }
 }
