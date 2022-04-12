@@ -6,10 +6,10 @@
 namespace chess_engine {
 namespace pieces {
 
-	static const int BOARD_TOP = 7;
-	static const int BOARD_BOTTON = 0;
-	static const int BOARD_LEFT = 0;
-	static const int BOARD_RIGHT = 7;
+	static const int8_t BOARD_TOP = 7;
+	static const int8_t BOARD_BOTTON = 0;
+	static const int8_t BOARD_LEFT = 0;
+	static const int8_t BOARD_RIGHT = 7;
 
 	bool CheckBoardEdgeCollision(base::Cordinate& new_pos)
 	{

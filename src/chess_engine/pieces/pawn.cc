@@ -28,32 +28,24 @@ namespace pieces
 		{
 			base::Cordinate new_pos = current_position + i;
 			if (CheckBoardEdgeCollision(new_pos))
-			{
 				break;
-			}
 
 			auto tile = map[new_pos.x][new_pos.y];
 			if (tile != TRITMAP_EMPTY)
-			{
 				break;
-			} 
-			possibleMoves.push_back(new_pos);
 
+			possibleMoves.push_back(new_pos);
 		}
 
 		for (base::Cordinate i : validKillMoves)
 		{
 			base::Cordinate new_pos = current_position + i;
 			if (CheckBoardEdgeCollision(new_pos))
-			{
 				continue;
-			}
 
 			auto tile = map[new_pos.x][new_pos.y];
 			if (tile != TRITMAP_EMPTY && tile != current_color)
-			{
 				possibleMoves.push_back(new_pos);
-			}
 		}
 
 		return possibleMoves;
