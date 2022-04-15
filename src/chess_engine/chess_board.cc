@@ -54,6 +54,7 @@ namespace chess_engine
         {
             return Result::InvalidArgument;
         }
+
         if (!subject->isValidMove(from, to, _cachedTritmap))
         {
             return Result::InvalidArgument;
@@ -65,6 +66,8 @@ namespace chess_engine
         _cachedTritmap[to.x][to.y] = subject->getColor() == White ? TRITMAP_WHITE : TRITMAP_BLACK;
         _cachedTritmap[from.x][from.y] = TRITMAP_EMPTY;
 
+        NotifyNextTurn();
+
         return Result::Success;
     }
 
@@ -73,7 +76,7 @@ namespace chess_engine
         return std::vector<base::Cordinate>();
     }
 
-    ChessBoard::ObserverRegistrationToken ChessBoard::SubscribeToTurnNotification(const IObserver *observer)
+    ObserverRegistrationToken ChessBoard::SubscribeToTurnNotification(IObserver *observer)
     {
         size_t index = _turnObservers.size();
         _turnObservers.push_back(observer);
@@ -88,6 +91,14 @@ namespace chess_engine
 
     bool ChessBoard::NotifyNextTurn()
     {
+        for (auto observer : _turnObservers)
+        {
+            observer->NextTurnEvent();
+        }
+        return true;
+    }
+
+    bool ChessBoard::NextTurnEvent() {
         return true;
     }
 

@@ -18,11 +18,11 @@ namespace chess_engine
         PieceColor color;
     };
 
-    class MockObserver : IObserver
+    class MockObserver : public IObserver
     {
     public:
 
-        MOCK_METHOD(bool, NotifyNextTurn, (), (override));
+        MOCK_METHOD(bool, NextTurnEvent, (), (override));
 
         int count;
         MockObserver(int c) : count(c) {}
@@ -32,7 +32,7 @@ namespace chess_engine
     class ChessBoardTest : public ::testing::Test
     {
     public:
-        std::vector<const IObserver*>& getTurnObservers(ChessBoard &board) { return board._turnObservers; }
+        std::vector<IObserver*>& getTurnObservers(ChessBoard &board) { return board._turnObservers; }
         Tile getBoardState(ChessBoard &board,
             int i, int j) {
             return Tile{board._state[i][j]->getType(), board._state[i][j]->getColor()};
@@ -88,6 +88,10 @@ namespace chess_engine
     TEST_F(ChessBoardTest, TestPlayMove)
     {
         ChessBoard board;
+        MockObserver observer;
+        MockObserver* observer_ptr = &observer;
+        board.SubscribeToTurnNotification(observer_ptr);
+        EXPECT_CALL(observer, NextTurnEvent).Times(3);
 
         // Valid Move - moving a white tile in first move
         EXPECT_EQ(board.getCurrentColor(), White);
@@ -145,13 +149,13 @@ namespace chess_engine
         auto _turnObservers = getTurnObservers(board);
         EXPECT_EQ(_turnObservers.size(), 1);
 
-        ChessBoard::ObserverRegistrationToken a_token = board.SubscribeToTurnNotification((IObserver*)(&a));
+        ObserverRegistrationToken a_token = board.SubscribeToTurnNotification((IObserver*)(&a));
         _turnObservers = getTurnObservers(board);
 
         EXPECT_EQ(_turnObservers.size(), 2);
         EXPECT_EQ(a_token, 1);
 
-        ChessBoard::ObserverRegistrationToken b_token = board.SubscribeToTurnNotification((IObserver*)(&b));
+        ObserverRegistrationToken b_token = board.SubscribeToTurnNotification((IObserver*)(&b));
         _turnObservers = getTurnObservers(board);
 
         EXPECT_EQ(_turnObservers.size(), 3);
