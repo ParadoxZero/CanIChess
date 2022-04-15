@@ -18,7 +18,7 @@ namespace base {
     bool operator!=(const Cordinate& lhs, const Cordinate& rhs);
 
     template<class T>
-    inline Cordinate& operator*(Cordinate lhs, T rhs)
+    inline Cordinate& operator*(Cordinate& lhs, T rhs)
     {
         lhs.x *= rhs;
         lhs.y *= rhs;
