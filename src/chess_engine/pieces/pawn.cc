@@ -2,6 +2,9 @@
 #include "utils.h"
 #include "../../base/cordinate.h"
 
+#include <vector>
+#include <algorithm>
+
 namespace chess_engine
 {
 namespace pieces 
