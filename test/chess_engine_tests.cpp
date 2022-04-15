@@ -140,6 +140,16 @@ namespace chess_engine
         EXPECT_EQ(map[0][1], TRITMAP_BLACK);
         EXPECT_EQ(map[0][2], TRITMAP_EMPTY);
 
+        // invalid Move - moving a white pawn incorrectly in first move
+        EXPECT_EQ(board2.getCurrentColor(), White);
+        EXPECT_NE(board2.getCurrentColor(), Black);
+        EXPECT_EQ(board2.playMove({ 0,6 }, { 0,3 }), base::Result::InvalidArgument);
+        EXPECT_EQ(getBoardHistorySize(board2), 0);
+
+        map = board2.getColormap();
+        EXPECT_EQ(map[0][6], TRITMAP_WHITE);
+        EXPECT_EQ(map[0][3], TRITMAP_EMPTY);
+
     }
 
     TEST_F(ChessBoardTest, TestObserverMechanics)

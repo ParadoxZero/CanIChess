@@ -15,4 +15,13 @@ namespace base {
     Cordinate& operator+(Cordinate lhs, Cordinate rhs);
     Cordinate& operator-(Cordinate lhs, Cordinate rhs);
     bool operator==(const Cordinate& lhs, const Cordinate& rhs);
+    bool operator!=(const Cordinate& lhs, const Cordinate& rhs);
+
+    template<class T>
+    inline Cordinate& operator*(Cordinate lhs, T rhs)
+    {
+        lhs.x *= rhs;
+        lhs.y *= rhs;
+        return lhs;
+    }
 }

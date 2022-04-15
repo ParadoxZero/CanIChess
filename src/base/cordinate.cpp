@@ -20,4 +20,9 @@ namespace base
     {
         return lhs.x == rhs.x && lhs.y == rhs.y;
     }
+
+    bool operator!=(const Cordinate& lhs, const Cordinate& rhs)
+    {
+        return lhs.x != rhs.x || lhs.y != rhs.y;
+    }
 }
