@@ -16,7 +16,7 @@ namespace pieces
 		std::vector<base::Cordinate> _cachedMoves;
 		base::Cordinate _cachedFrom;
 
-		const base::Cordinate INVALID = { -1,-1 };
+		static const base::Cordinate INVALID;
 	};
 }
 }
