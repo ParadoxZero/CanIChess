@@ -9,7 +9,7 @@ namespace base {
         int8_t y;
 
          Cordinate(int8_t x1, int8_t y1) : x(x1), y(y1){}
-         Cordinate(const Cordinate& old) { x = old.x; y = old.y; }
+         Cordinate(const Cordinate& old) :x(old.x), y(old.y) { }
     };
 
     Cordinate& operator+(Cordinate lhs, Cordinate rhs);
