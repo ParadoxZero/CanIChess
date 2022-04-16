@@ -9,9 +9,6 @@ namespace chess_engine
 {
 namespace pieces 
 {
-
-	const base::Cordinate Pawn::INVALID = { -1,-1 };
-
 	static const std::vector<base::Cordinate> validMoves = {
 		{0, 1},
 		{0, 2}

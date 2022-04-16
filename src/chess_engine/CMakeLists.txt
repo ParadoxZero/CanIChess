@@ -23,6 +23,7 @@ set(SOURCE_FILES
 	"pieces/empty.cc"
 	"chess_tritmap.h" 
 	"pieces/utils.h" 
-	"chess_board_listener.h")
+	"chess_board_listener.h" 
+	"chess_piece.cpp")
 
 add_library(chess_engine STATIC ${SOURCE_FILES})

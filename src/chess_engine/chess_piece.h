@@ -33,7 +33,9 @@ namespace chess_engine
 			_type(type), 
 			_color(color), 
 			_board(nullptr), 
-			_registrationToken(0) 
+			_registrationToken(0),
+			_cachedFrom(INVALID),
+			_cachedMoves({})
 		{}
 
 		ChessPiece(ChessPieceType type, PieceColor color, IChessBoardNotifier* board): ChessPiece(type, color) 
@@ -49,8 +51,8 @@ namespace chess_engine
 		PieceColor getColor() { return _color; }
 
 		virtual std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position, Tritmap& map) = 0;
-		virtual bool isValidMove(base::Cordinate from, base::Cordinate to, Tritmap &map) { return true; /*Incomplete - To be implemented by children*/ };
-		virtual bool NextTurnEvent() { return true; }
+		bool isValidMove(base::Cordinate from, base::Cordinate to, Tritmap &map);
+		bool NextTurnEvent() override;
 
 		~ChessPiece()
 		{
@@ -67,6 +69,11 @@ namespace chess_engine
 		ChessPieceType _type;
 		ObserverRegistrationToken _registrationToken;
 		IChessBoardNotifier* _board;
+
+	protected:
+		std::vector<base::Cordinate> _cachedMoves;
+		base::Cordinate _cachedFrom;
+		static const base::Cordinate INVALID;
 	};
 
 	class ChessPieceFactory

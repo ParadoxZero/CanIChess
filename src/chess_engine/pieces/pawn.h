@@ -7,16 +7,10 @@ namespace pieces
 	{
 	public:
 
-		Pawn(PieceColor color) : ChessPiece(ChessPieceType::Pawn, color), _cachedFrom(INVALID) {}
+		Pawn(PieceColor color) : ChessPiece(ChessPieceType::Pawn, color) {}
 		std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position, Tritmap& map) override;
 		bool isValidMove(base::Cordinate from, base::Cordinate to, Tritmap& map);
 		bool NextTurnEvent();
-
-	private:
-		std::vector<base::Cordinate> _cachedMoves;
-		base::Cordinate _cachedFrom;
-
-		static const base::Cordinate INVALID;
 	};
 }
 }
