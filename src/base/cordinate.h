@@ -12,8 +12,8 @@ namespace base {
          Cordinate(const Cordinate& old) :x(old.x), y(old.y) { }
     };
 
-    Cordinate& operator+(Cordinate lhs, Cordinate rhs);
-    Cordinate& operator-(Cordinate lhs, Cordinate rhs);
+    Cordinate operator+(Cordinate lhs, Cordinate rhs);
+    Cordinate operator-(Cordinate lhs, Cordinate rhs);
     bool operator==(const Cordinate& lhs, const Cordinate& rhs);
     bool operator!=(const Cordinate& lhs, const Cordinate& rhs);
 
