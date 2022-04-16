@@ -42,6 +42,12 @@ namespace chess_engine
         {
             return board._moveHistory.size();
         }
+
+        std::vector< std::pair<base::Cordinate, base::Cordinate> > getHistory(ChessBoard& board)
+        {
+            return board._moveHistory;
+        }
+
     };
 
     TEST_F(ChessBoardTest, TestChessBoardInit)
@@ -93,11 +99,16 @@ namespace chess_engine
         board.SubscribeToTurnNotification(observer_ptr);
         EXPECT_CALL(observer, NextTurnEvent).Times(3);
 
+        std::vector< std::pair<base::Cordinate, base::Cordinate> > history_reference;
+
         // Valid Move - moving a white tile in first move
         EXPECT_EQ(board.getCurrentColor(), White);
         EXPECT_NE(board.getCurrentColor(), Black);
         EXPECT_EQ(board.playMove({ 0,6 }, { 0, 5}), base::Result::Success);
         EXPECT_EQ(getBoardHistorySize(board), 1);
+        auto history = getHistory(board);
+        history_reference = { {{0,6},{0,5}} };
+        EXPECT_EQ(history, history_reference);
         
         Tritmap map = board.getColormap();
         EXPECT_EQ(map[0][5], TRITMAP_WHITE);
@@ -106,14 +117,20 @@ namespace chess_engine
         // Invalid Move - Moving white tile while black's turn
         EXPECT_EQ(board.playMove({ 1,6 }, { 1,5 }), base::Result::InvalidArgument);
         EXPECT_EQ(getBoardHistorySize(board), 1);
-        map = board.getColormap();
+        history = getHistory(board);
+        history_reference = { {{0,6},{0,5}} };
+        EXPECT_EQ(history, history_reference);
 
+        map = board.getColormap();
         EXPECT_EQ(map[1][5], TRITMAP_EMPTY);
         EXPECT_EQ(map[1][6], TRITMAP_WHITE);
 
         // Valid Move - Moving black tile
         EXPECT_EQ(board.playMove({ 0,1 }, { 0,2 }), base::Result::Success);
         EXPECT_EQ(getBoardHistorySize(board), 2);
+        history = getHistory(board);
+        history_reference = { {{0,6},{0,5}}, {{ 0,1 }, { 0,2 }} };
+        EXPECT_EQ(history, history_reference);
 
         map = board.getColormap();
         EXPECT_EQ(map[0][1], TRITMAP_EMPTY);
@@ -124,6 +141,9 @@ namespace chess_engine
         EXPECT_NE(board.getCurrentColor(), Black);
         EXPECT_EQ(board.playMove({ 1,6 }, { 1,5 }), base::Result::Success);
         EXPECT_EQ(getBoardHistorySize(board), 3);
+        history = getHistory(board);
+        history_reference = { {{0,6},{0,5}}, {{ 0,1 },{ 0,2 }}, {{ 1,6 }, { 1,5 }} };
+        EXPECT_EQ(history, history_reference);
 
         map = board.getColormap();
         EXPECT_EQ(map[1][5], TRITMAP_WHITE);

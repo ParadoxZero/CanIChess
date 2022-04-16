@@ -7,11 +7,33 @@
 
 #include "../src/chess_engine/pieces/pawn.h"
 
+#include <unordered_set>
+
 namespace chess_engine::pieces {
 
     class ChessPiecesTest : public ::testing::Test
     {
+    public:
+        bool AreEqual(std::vector<base::Cordinate> a, std::vector<base::Cordinate> b)
+        {
+            for (auto i : a)
+            {
+                if (std::find(b.begin(), b.end(), i) == b.end())
+                {
+                    return false;
+                }
+            }
 
+            for (auto i : b)
+            {
+                if (std::find(a.begin(), a.end(), i) == a.end())
+                {
+                    return false;
+                }
+            }
+
+            return a.size() == b.size(); // [aabc] [abcd]
+        }
     };
 
     TEST_F(ChessPiecesTest, TestPawnGetAvailableMoves)
@@ -143,7 +165,44 @@ namespace chess_engine::pieces {
         EXPECT_TRUE(pawn->isValidMove({ 0,6 }, {0,5}, map));
         EXPECT_TRUE(pawn->isValidMove({ 0,6 }, { 0,4 }, map));
         map[0][0] = TRITMAP_BLACK;
-        EXPECT_TRUE(pawn->isValidMove({ 0,0 }, { 0,2 }, map)); // Since from has changed, the catch will be recomputed.
+        EXPECT_TRUE(pawn->isValidMove({ 0,0 }, { 0,2 }, map)); // Since 'from' has changed, the cache will be recomputed.
+    }
+
+    TEST_F(ChessPiecesTest, TestKnightGetAvailableMoves)
+    {
+        std::unique_ptr<ChessPiece> knight = ChessPieceFactory::createPiece(ChessPieceType::Knight, White);
+        Tritmap map{};
+        std::vector<base::Cordinate> test_results;
+        std::vector<base::Cordinate> return_vector;
+        map[3][3] = TRITMAP_WHITE;
+        return_vector = knight->getPossibleMoves({ 3,3 }, map);
+        test_results = { {4,5}, {2,5}, {2,1}, {4,1}, {1,2}, {5,2}, {1,4}, {5,4} };
+        EXPECT_TRUE(AreEqual(return_vector, test_results));
+
+        /* Knight at corner - Check for bounds */
+        map = {};
+        map[0][0] = TRITMAP_WHITE;
+        return_vector = knight->getPossibleMoves({ 0,0 }, map);
+        test_results = { {1,2}, {2,1}, };
+        EXPECT_TRUE(AreEqual(return_vector, test_results));
+
+        /* Knight blocked by friendly tiles */
+        map = {};
+        map[3][3] = TRITMAP_WHITE;
+        map[5][4] = map[1][4] = map[5][2] = map[1][2] = map[4][1] = map[4][5] = map[2][1] = map[2][5] = TRITMAP_WHITE;
+        return_vector = knight->getPossibleMoves({ 3,3 }, map);
+        test_results = {};
+        EXPECT_TRUE(AreEqual(return_vector, test_results));
+
+
+        /* Knight blocked by friendly tiles and enemy */
+        map = {};
+        map[3][3] = TRITMAP_WHITE;
+        map[5][4] = map[1][4] = map[5][2] = map[1][2] = TRITMAP_BLACK;
+        map[4][1] = map[4][5] = map[2][1] = map[2][5] = TRITMAP_WHITE;
+        return_vector = knight->getPossibleMoves({ 3,3 }, map);
+        test_results = { {1,2}, {5,2}, {1,4}, {5,4} };
+        EXPECT_TRUE(AreEqual(return_vector, test_results));
     }
 
 }

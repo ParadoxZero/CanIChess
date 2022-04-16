@@ -62,7 +62,7 @@ namespace chess_engine
 
         _state[to.x][to.y] = move(_state[from.x][from.y]);
         _state[from.x][from.y] = ChessPieceFactory::createEmpty();
-        _moveHistory.push_back({ { from.x,from.y }, { to.x, to.y } });
+        _moveHistory.push_back({ from, to });
         _cachedTritmap[to.x][to.y] = subject->getColor() == White ? TRITMAP_WHITE : TRITMAP_BLACK;
         _cachedTritmap[from.x][from.y] = TRITMAP_EMPTY;
 
