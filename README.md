@@ -1,5 +1,8 @@
 # Can I Chess?
-[![CMake](https://github.com/ParadoxZero/CanIChess/actions/workflows/cmake.yml/badge.svg)](https://github.com/ParadoxZero/CanIChess/actions/workflows/cmake.yml)
+
+| Windows | MacOS | Ubuntu |
+| ------- | ----- | ------ |
+| [![Windows](https://github.com/ParadoxZero/CanIChess/actions/workflows/cmake-windows.yml/badge.svg)](https://github.com/ParadoxZero/CanIChess/actions/workflows/cmake-windows.yml) | [![MacOS](https://github.com/ParadoxZero/CanIChess/actions/workflows/cmake-macos.yml/badge.svg)](https://github.com/ParadoxZero/CanIChess/actions/workflows/cmake-macos.yml) | [![Ubuntu](https://github.com/ParadoxZero/CanIChess/actions/workflows/cmake-ubuntu.yml/badge.svg)](https://github.com/ParadoxZero/CanIChess/actions/workflows/cmake-ubuntu.yml) |
 
 A simple local chess game made using C++ and SFML
 
