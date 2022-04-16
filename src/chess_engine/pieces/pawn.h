@@ -9,8 +9,6 @@ namespace pieces
 
 		Pawn(PieceColor color) : ChessPiece(ChessPieceType::Pawn, color) {}
 		std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position, Tritmap& map) override;
-		bool isValidMove(base::Cordinate from, base::Cordinate to, Tritmap& map);
-		bool NextTurnEvent();
 	};
 }
 }

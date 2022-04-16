@@ -58,25 +58,5 @@ namespace pieces
 		return _cachedMoves;
 	}
 
-	bool Pawn::isValidMove(base::Cordinate from, base::Cordinate to, Tritmap& map)
-	{
-		if (_cachedFrom != from)
-		{
-			_cachedFrom = from;
-			getPossibleMoves(from, map);
-			return isValidMove(from, to, map);
-		}
-
-		auto found_ittr = std::find(_cachedMoves.begin(), _cachedMoves.end(), to);
-		return found_ittr != _cachedMoves.end();
-	}
-
-	bool Pawn::NextTurnEvent()
-	{
-		_cachedMoves.clear();
-		_cachedFrom = INVALID;
-		return true;
-	}
-
 }
 }
