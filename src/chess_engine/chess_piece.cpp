@@ -1,5 +1,8 @@
 #include "chess_piece.h"
 
+#include <vector>
+#include <algorithm>
+
 namespace chess_engine {
 
 	const base::Cordinate ChessPiece::INVALID = { -1,-1 };
