@@ -1,6 +1,8 @@
 #ifndef __CHESS_ENGINE_CHESS_BOARD_LISTENER__
 #define __CHESS_ENGINE_CHESS_BOARD_LISTENER__
 
+#include <cstddef>
+
 namespace chess_engine {
 
     typedef size_t ObserverRegistrationToken;
