@@ -1,14 +1,16 @@
 #pragma once
 
 #include "../base/cordinate.h"
-#include "chess_tritmap.h"
 #include "chess_board_listener.h"
 
 #include <vector>
 #include <memory>
+#include <array>
 
 namespace chess_engine 
 {
+	template<class T> using ChessBoardMatrix = std::array<std::array<std::unique_ptr<T>, 8>, 8>;
+
 	enum ChessPieceType 
 	{
 		Empty,
@@ -24,6 +26,16 @@ namespace chess_engine
 	{
 		White,
 		Black
+	};
+
+	class ChessPiece;
+
+	class ChessPieceFactory
+	{
+	public:
+		static std::unique_ptr<ChessPiece> createPiece(ChessPieceType, PieceColor);
+		static std::unique_ptr<ChessPiece> createEmpty();
+
 	};
 
 	class ChessPiece : IObserver
@@ -50,9 +62,11 @@ namespace chess_engine
 		ChessPieceType getType() { return _type; };
 		PieceColor getColor() { return _color; }
 
-		virtual std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position, Tritmap& map) = 0;
-		bool isValidMove(base::Cordinate from, base::Cordinate to, Tritmap &map);
+		virtual std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position, ChessBoardMatrix<ChessPiece>& map) = 0;
+		bool isValidMove(base::Cordinate from, base::Cordinate to, ChessBoardMatrix<ChessPiece>& map);
 		bool NextTurnEvent() override;
+
+		std::unique_ptr<ChessPiece> Clone() { return ChessPieceFactory::createPiece(_type, _color); }
 
 		~ChessPiece()
 		{
@@ -74,13 +88,5 @@ namespace chess_engine
 		std::vector<base::Cordinate> _cachedMoves;
 		base::Cordinate _cachedFrom;
 		static const base::Cordinate INVALID;
-	};
-
-	class ChessPieceFactory
-	{
-	public:
-		static std::unique_ptr<ChessPiece> createPiece(ChessPieceType, PieceColor);
-		static std::unique_ptr<ChessPiece> createEmpty();
-
 	};
 }

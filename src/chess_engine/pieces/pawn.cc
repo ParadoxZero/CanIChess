@@ -19,17 +19,18 @@ namespace pieces
 	};
 
 	static const int8_t sign_multiplier[] = { 1,-1 };
-	static const int BLACK_SIGN = 0;
-	static const int WHITE_SIGN = 1;
+	static const int BLACK_SIGN = 1;
+	static const int WHITE_SIGN = -1;
 
-	std::vector<base::Cordinate> Pawn::getPossibleMoves(base::Cordinate current_position, Tritmap& map)
+	std::vector<base::Cordinate> Pawn::getPossibleMoves(base::Cordinate current_position, ChessBoardMatrix<ChessPiece>& map)
 	{
 		_cachedMoves.clear();
 		_cachedFrom = current_position;
-		auto current_color = map[current_position.x][current_position.y];
-		int multiplier = sign_multiplier[current_color == TRITMAP_BLACK ? BLACK_SIGN : WHITE_SIGN];
+		auto &current_tile = map[current_position.x][current_position.y];
 
-		if (current_color == TRITMAP_EMPTY) { return _cachedMoves; }
+		if (current_tile->getType() == Empty) { return _cachedMoves; }
+
+		int multiplier = current_tile->getColor() ==  Black ? BLACK_SIGN : WHITE_SIGN;
 
 		for (base::Cordinate i : validMoves)
 		{
@@ -37,8 +38,8 @@ namespace pieces
 			if (CheckBoardEdgeCollision(new_pos))
 				break;
 
-			auto tile = map[new_pos.x][new_pos.y];
-			if (tile != TRITMAP_EMPTY)
+			auto &tile = map[new_pos.x][new_pos.y];
+			if (tile->getType() != Empty)
 				break;
 
 			_cachedMoves.push_back(new_pos);
@@ -50,8 +51,8 @@ namespace pieces
 			if (CheckBoardEdgeCollision(new_pos))
 				continue;
 
-			auto tile = map[new_pos.x][new_pos.y];
-			if (tile != TRITMAP_EMPTY && tile != current_color)
+			auto &tile = map[new_pos.x][new_pos.y];
+			if (tile->getType() != Empty && tile->getColor() != current_tile->getColor())
 				_cachedMoves.push_back(new_pos);
 		}
 

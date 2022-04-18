@@ -2,7 +2,6 @@
 #include <gmock/gmock.h>
 
 #include "../src/chess_engine/chess_board.h"
-#include "../src/chess_engine/chess_tritmap.h"
 #include "../src/base/result.h"
 
 #define BLACK(a) {a, Black}
@@ -74,7 +73,7 @@ namespace chess_engine
             }
         }
 
-        std::array<std::array<int8_t, 8>, 8> map = board.getColormap();
+        auto map = board.getState();
 
         for (int i = 0; i < 8; ++i)
         {
@@ -82,10 +81,10 @@ namespace chess_engine
             {
                 if (boardReference[i][j].type == Empty)
                 {
-                    EXPECT_EQ(map[i][j], chess_engine::TRITMAP_EMPTY);
+                    EXPECT_EQ(map[i][j]->getType(), Empty);
                 }
                 else {
-                    EXPECT_EQ(map[i][j], boardReference[i][j].color == PieceColor::White? chess_engine::TRITMAP_WHITE : chess_engine::TRITMAP_BLACK);
+                    EXPECT_EQ(map[i][j]->getColor(), boardReference[i][j].color);
                 }
             }
         }
@@ -110,9 +109,9 @@ namespace chess_engine
         history_reference = { {{0,6},{0,5}} };
         EXPECT_EQ(history, history_reference);
         
-        Tritmap map = board.getColormap();
-        EXPECT_EQ(map[0][5], TRITMAP_WHITE);
-        EXPECT_EQ(map[0][6], TRITMAP_EMPTY);
+        auto map = board.getState();
+        EXPECT_EQ(map[0][5]->getColor(), White);
+        EXPECT_EQ(map[0][6]->getType(), Empty);
 
         // Invalid Move - Moving white tile while black's turn
         EXPECT_EQ(board.playMove({ 1,6 }, { 1,5 }), base::Result::InvalidArgument);
@@ -121,9 +120,9 @@ namespace chess_engine
         history_reference = { {{0,6},{0,5}} };
         EXPECT_EQ(history, history_reference);
 
-        map = board.getColormap();
-        EXPECT_EQ(map[1][5], TRITMAP_EMPTY);
-        EXPECT_EQ(map[1][6], TRITMAP_WHITE);
+        map = board.getState();
+        EXPECT_EQ(map[1][5]->getType(), Empty);
+        EXPECT_EQ(map[1][6]->getColor(), White);
 
         // Valid Move - Moving black tile
         EXPECT_EQ(board.playMove({ 0,1 }, { 0,2 }), base::Result::Success);
@@ -132,9 +131,9 @@ namespace chess_engine
         history_reference = { {{0,6},{0,5}}, {{ 0,1 }, { 0,2 }} };
         EXPECT_EQ(history, history_reference);
 
-        map = board.getColormap();
-        EXPECT_EQ(map[0][1], TRITMAP_EMPTY);
-        EXPECT_EQ(map[0][2], TRITMAP_BLACK);
+        map = board.getState();
+        EXPECT_EQ(map[0][1]->getType(), Empty);
+        EXPECT_EQ(map[0][2]->getColor(), Black);
 
         // Valid Move - Moving white again in next turn
         EXPECT_EQ(board.getCurrentColor(), White);
@@ -145,9 +144,9 @@ namespace chess_engine
         history_reference = { {{0,6},{0,5}}, {{ 0,1 },{ 0,2 }}, {{ 1,6 }, { 1,5 }} };
         EXPECT_EQ(history, history_reference);
 
-        map = board.getColormap();
-        EXPECT_EQ(map[1][5], TRITMAP_WHITE);
-        EXPECT_EQ(map[1][6], TRITMAP_EMPTY);
+        map = board.getState();
+        EXPECT_EQ(map[1][5]->getColor(), White);
+        EXPECT_EQ(map[1][6]->getType(), Empty);
 
         // invalid Move - moving a black tile in first move
         ChessBoard board2;
@@ -156,9 +155,9 @@ namespace chess_engine
         EXPECT_EQ(board2.playMove({ 0,1 }, { 0,2 }), base::Result::InvalidArgument);
         EXPECT_EQ(getBoardHistorySize(board2), 0);
 
-        map = board2.getColormap();
-        EXPECT_EQ(map[0][1], TRITMAP_BLACK);
-        EXPECT_EQ(map[0][2], TRITMAP_EMPTY);
+        map = board2.getState();
+        EXPECT_EQ(map[0][1]->getColor(), Black);
+        EXPECT_EQ(map[0][2]->getType(), Empty);
 
         // invalid Move - moving a white pawn incorrectly in first move
         EXPECT_EQ(board2.getCurrentColor(), White);
@@ -166,9 +165,9 @@ namespace chess_engine
         EXPECT_EQ(board2.playMove({ 0,6 }, { 0,3 }), base::Result::InvalidArgument);
         EXPECT_EQ(getBoardHistorySize(board2), 0);
 
-        map = board2.getColormap();
-        EXPECT_EQ(map[0][6], TRITMAP_WHITE);
-        EXPECT_EQ(map[0][3], TRITMAP_EMPTY);
+        map = board2.getState();
+        EXPECT_EQ(map[0][6]->getColor(), White);
+        EXPECT_EQ(map[0][3]->getType(), Empty);
 
     }
 

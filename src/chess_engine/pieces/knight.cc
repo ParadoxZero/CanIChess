@@ -14,13 +14,13 @@ namespace chess_engine::pieces
 		{2, -1}
 	};
 
-	std::vector<base::Cordinate> Knight::getPossibleMoves(base::Cordinate current_position, Tritmap& map)
+	std::vector<base::Cordinate> Knight::getPossibleMoves(base::Cordinate current_position, ChessBoardMatrix<ChessPiece>& map)
 	{
 		_cachedMoves.clear();
 		_cachedFrom = current_position;
-		auto current_color = map[current_position.x][current_position.y];
+		auto &current_tile = map[current_position.x][current_position.y];
 
-		if (current_color == TRITMAP_EMPTY) { return _cachedMoves; }
+		if (current_tile->getType() == Empty) { return _cachedMoves; }
 
 		for (base::Cordinate i : validMoves)
 		{
@@ -28,8 +28,8 @@ namespace chess_engine::pieces
 			if (CheckBoardEdgeCollision(new_pos))
 				continue;
 
-			auto new_tile = map[new_pos.x][new_pos.y];
-			if (new_tile == current_color)
+			auto &new_tile = map[new_pos.x][new_pos.y];
+			if (new_tile->getType() != Empty && new_tile->getColor() == current_tile->getColor())
 				continue;
 
 			_cachedMoves.push_back(new_pos);
