@@ -21,7 +21,6 @@ set(SOURCE_FILES
 	"pieces/pawn.cc"
 	"pieces/empty.h"
 	"pieces/empty.cc"
-	"chess_tritmap.h" 
 	"pieces/utils.h" 
 	"chess_board_listener.h" 
 	"chess_piece.cpp")
