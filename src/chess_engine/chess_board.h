@@ -4,7 +4,8 @@
 #include "chess_board_listener.h"
 #include "../base/result.h"
 
-#include <stdint.h>
+#include <cstdint>
+#include <cstddef>
 #include <memory>
 #include <vector>
 #include <array>
