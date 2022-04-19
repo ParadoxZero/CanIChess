@@ -6,6 +6,7 @@ namespace base
     enum Result 
     {
         Success,
+        Promote,
         InvalidArgument,
         Forbidden,
     };

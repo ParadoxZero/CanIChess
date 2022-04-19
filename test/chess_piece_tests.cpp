@@ -236,4 +236,68 @@ namespace chess_engine::pieces {
         EXPECT_TRUE(AreEqual(return_vector, test_results));
     }
 
+    TEST_F(ChessPiecesTest, TestKingGetAvailableMoves)
+    {
+        std::unique_ptr<ChessPiece> king = ChessPieceFactory::createPiece(ChessPieceType::King, White);
+        std::array<std::array<std::unique_ptr<ChessPiece>, 8>, 8> map = initMap();
+        std::vector<base::Cordinate> test_results;
+        std::vector<base::Cordinate> return_vector;
+
+        map = initMap();
+        map[3][3] = ChessPieceFactory::createPiece(King, White);
+        return_vector = king->getPossibleMoves({ 3,3 }, map);
+        test_results = { {4,3}, {4,4}, {3,4}, {2,4}, {2,3}, {2,2}, {3,2}, {4,2} };
+        EXPECT_TRUE(AreEqual(return_vector, test_results));
+
+        map = initMap();
+        map[3][0] = ChessPieceFactory::createPiece(King, White);
+        return_vector = king->getPossibleMoves({ 3,0 }, map);
+        test_results = { {4,0}, {4,1}, {3,1}, {2,1}, {2,0}};
+        EXPECT_TRUE(AreEqual(return_vector, test_results));
+
+        map = initMap();
+        map[0][0] = ChessPieceFactory::createPiece(King, White);
+        return_vector = king->getPossibleMoves({ 0,0 }, map);
+        test_results = { {1,0}, {1,1}, {0,1} };
+        EXPECT_TRUE(AreEqual(return_vector, test_results));
+
+        map = initMap();
+        map[3][3] = ChessPieceFactory::createPiece(King, White);
+
+        map[4][3] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, Black);
+        map[3][4] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, Black);
+        map[2][2] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, Black);
+        map[3][2] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, Black);
+
+        map[4][4] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
+        map[2][4] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
+        map[2][3] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
+        map[4][2] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
+
+
+        return_vector = king->getPossibleMoves({ 3,3 }, map);
+        test_results = {{4,3}, {3,4}, {2,2}, {3,2}};
+        EXPECT_TRUE(AreEqual(return_vector, test_results));
+
+        map = initMap();
+        map[3][3] = ChessPieceFactory::createPiece(King, White);
+
+        map[4][3] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, Black);
+        map[3][4] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, Black);
+        map[2][2] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, Black);
+        map[3][2] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, Black);
+
+        map[4][4] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
+        map[2][4] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
+        map[2][3] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
+        map[4][2] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
+
+
+        return_vector = king->getPossibleMoves({ 3,3 }, map);
+        test_results = { {4,3}, {3,4}, {2,2}, {3,2}, {1,1} };
+        EXPECT_FALSE(AreEqual(return_vector, test_results));
+
+
+    }
+
 }
