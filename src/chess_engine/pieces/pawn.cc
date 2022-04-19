@@ -8,12 +8,12 @@ namespace chess_engine
 {
 namespace pieces 
 {
-	static const std::vector<base::Cordinate> validMoves = {
+	static const std::vector<base::Vector2d> validMoves = {
 		{0, 1},
 		{0, 2}
 	};
 
-	static const std::vector<base::Cordinate> validKillMoves = {
+	static const std::vector<base::Vector2d> validKillMoves = {
 		{1,1},
 		{-1,1}
 	};
@@ -22,7 +22,7 @@ namespace pieces
 	static const int BLACK_SIGN = 1;
 	static const int WHITE_SIGN = -1;
 
-	std::vector<base::Cordinate> Pawn::getPossibleMoves(base::Cordinate current_position, ChessBoardMatrix<ChessPiece>& map)
+	std::vector<base::Vector2d> Pawn::getPossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map)
 	{
 		_cachedMoves.clear();
 		_cachedFrom = current_position;
@@ -32,9 +32,9 @@ namespace pieces
 
 		int multiplier = current_tile->getColor() ==  Black ? BLACK_SIGN : WHITE_SIGN;
 
-		for (base::Cordinate i : validMoves)
+		for (base::Vector2d i : validMoves)
 		{
-			base::Cordinate new_pos = current_position + i * multiplier;
+			base::Vector2d new_pos = current_position + i * multiplier;
 			if (CheckBoardEdgeCollision(new_pos))
 				break;
 
@@ -45,9 +45,9 @@ namespace pieces
 			_cachedMoves.push_back(new_pos);
 		}
 
-		for (base::Cordinate i : validKillMoves)
+		for (base::Vector2d i : validKillMoves)
 		{
-			base::Cordinate new_pos = current_position + i * multiplier;
+			base::Vector2d new_pos = current_position + i * multiplier;
 			if (CheckBoardEdgeCollision(new_pos))
 				continue;
 

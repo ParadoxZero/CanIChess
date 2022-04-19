@@ -13,7 +13,7 @@ namespace chess_engine::pieces {
     class ChessPiecesTest : public ::testing::Test
     {
     public:
-        bool AreEqual(std::vector<base::Cordinate> a, std::vector<base::Cordinate> b)
+        bool AreEqual(std::vector<base::Vector2d> a, std::vector<base::Vector2d> b)
         {
             for (auto i : a)
             {
@@ -58,7 +58,7 @@ namespace chess_engine::pieces {
         auto move_list = pawn->getPossibleMoves({0,6}, map);
 
         ASSERT_EQ(move_list.size(), 2);
-        base::Cordinate test_result{ 0,5 };
+        base::Vector2d test_result{ 0,5 };
         EXPECT_EQ(move_list[0], test_result);
         EXPECT_TRUE(pawn->isValidMove({ 0,6 }, test_result, map));
         test_result = { 0,4 };
@@ -111,7 +111,7 @@ namespace chess_engine::pieces {
         move_list = pawn->getPossibleMoves({ 2,3 }, map);
         ASSERT_EQ(move_list.size(), 4);
 
-        std::vector<base::Cordinate> test_reference { {2,2},{2,1},{1,2},{3,2} };
+        std::vector<base::Vector2d> test_reference { {2,2},{2,1},{1,2},{3,2} };
         EXPECT_EQ(move_list[0], test_reference[0]);
         EXPECT_EQ(move_list[1], test_reference[1]);
         EXPECT_EQ(move_list[2], test_reference[2]);
@@ -186,8 +186,8 @@ namespace chess_engine::pieces {
     {
         std::unique_ptr<ChessPiece> knight = ChessPieceFactory::createPiece(ChessPieceType::Knight, White);
         std::array<std::array<std::unique_ptr<ChessPiece>, 8>, 8> map = initMap();
-        std::vector<base::Cordinate> test_results;
-        std::vector<base::Cordinate> return_vector;
+        std::vector<base::Vector2d> test_results;
+        std::vector<base::Vector2d> return_vector;
         map[3][3] = ChessPieceFactory::createPiece(ChessPieceType::Knight, White);
         return_vector = knight->getPossibleMoves({ 3,3 }, map);
         test_results = { {4,5}, {2,5}, {2,1}, {4,1}, {1,2}, {5,2}, {1,4}, {5,4} };
@@ -240,8 +240,8 @@ namespace chess_engine::pieces {
     {
         std::unique_ptr<ChessPiece> king = ChessPieceFactory::createPiece(ChessPieceType::King, White);
         std::array<std::array<std::unique_ptr<ChessPiece>, 8>, 8> map = initMap();
-        std::vector<base::Cordinate> test_results;
-        std::vector<base::Cordinate> return_vector;
+        std::vector<base::Vector2d> test_results;
+        std::vector<base::Vector2d> return_vector;
 
         map = initMap();
         map[3][3] = ChessPieceFactory::createPiece(King, White);

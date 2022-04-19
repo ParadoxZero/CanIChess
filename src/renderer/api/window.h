@@ -23,6 +23,8 @@ namespace renderer::api {
 
         virtual RegistrationToken registerKeyboardEvent(KeyboardEventCallback callback) = 0;
         virtual RegistrationToken registerPointerEvent(PointerEventCallback callback) = 0;
+        virtual RegistrationToken registerSystemEvents(SystemEventsCallback callback) = 0;
+        virtual bool setImGuiLoop(std::function<void(void)> method) = 0;
         virtual bool updateWindowProps(WindowOptions& options) = 0;
         virtual bool initGUI() = 0;
         virtual bool windowEventLoop() = 0;

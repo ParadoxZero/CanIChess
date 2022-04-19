@@ -42,7 +42,7 @@ namespace chess_engine
             return board._moveHistory.size();
         }
 
-        std::vector< std::pair<base::Cordinate, base::Cordinate> > getHistory(ChessBoard& board)
+        std::vector< std::pair<base::Vector2d, base::Vector2d> > getHistory(ChessBoard& board)
         {
             return board._moveHistory;
         }
@@ -98,7 +98,7 @@ namespace chess_engine
         board.SubscribeToTurnNotification(observer_ptr);
         EXPECT_CALL(observer, NextTurnEvent).Times(3);
 
-        std::vector< std::pair<base::Cordinate, base::Cordinate> > history_reference;
+        std::vector< std::pair<base::Vector2d, base::Vector2d> > history_reference;
 
         // Valid Move - moving a white tile in first move
         EXPECT_EQ(board.getCurrentColor(), White);

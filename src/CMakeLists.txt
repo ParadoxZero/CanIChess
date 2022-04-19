@@ -14,12 +14,19 @@ add_executable (game "main.cpp")
 add_library(CanIChess STATIC ${SOURCE_FILES})
 
 add_subdirectory("chess_engine")
+add_subdirectory("renderer")
 
 set(LINK_TARGETS
-	sfml-window
 	chess_engine
+	renderer
+	sfml-window
+	sfml-system
+	sfml-graphics
+	sfml-audio
 	CanIChess
 	imgui
+	ImGui-SFML
+	OpenGL
 )
 target_link_libraries(game PRIVATE ${LINK_TARGETS})
 

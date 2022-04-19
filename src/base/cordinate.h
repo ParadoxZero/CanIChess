@@ -3,22 +3,22 @@
 #include <stdint.h>
 
 namespace base {
-    struct Cordinate
+    struct Vector2d
     {
         int8_t x;
         int8_t y;
 
-         Cordinate(int8_t x1, int8_t y1) : x(x1), y(y1){}
-         Cordinate(const Cordinate& old) :x(old.x), y(old.y) { }
+         Vector2d(int8_t x1, int8_t y1) : x(x1), y(y1){}
+         Vector2d(const Vector2d& old) :x(old.x), y(old.y) { }
     };
 
-    Cordinate operator+(Cordinate lhs, Cordinate rhs);
-    Cordinate operator-(Cordinate lhs, Cordinate rhs);
-    bool operator==(const Cordinate& lhs, const Cordinate& rhs);
-    bool operator!=(const Cordinate& lhs, const Cordinate& rhs);
+    Vector2d operator+(Vector2d lhs, Vector2d rhs);
+    Vector2d operator-(Vector2d lhs, Vector2d rhs);
+    bool operator==(const Vector2d& lhs, const Vector2d& rhs);
+    bool operator!=(const Vector2d& lhs, const Vector2d& rhs);
 
     template<class T>
-    inline Cordinate& operator*(Cordinate& lhs, T rhs)
+    inline Vector2d& operator*(Vector2d& lhs, T rhs)
     {
         lhs.x *= rhs;
         lhs.y *= rhs;
