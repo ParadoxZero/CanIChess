@@ -7,8 +7,8 @@ namespace pieces
 	{
 	public:
 
-		Queen(PieceColor color) : ChessPiece(ChessPieceType::Queen, color) {}
-		std::vector<base::Vector2d> getPossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map) override;
+		Queen(PieceColor color, IChessBoardNotifier* board) : ChessPiece(ChessPieceType::Queen, color, board) {}
+		std::vector<base::Vector2d> generatePossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map) override;
 	};
 }
 }

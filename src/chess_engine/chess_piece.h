@@ -33,7 +33,7 @@ namespace chess_engine
 	class ChessPieceFactory
 	{
 	public:
-		static std::unique_ptr<ChessPiece> createPiece(ChessPieceType, PieceColor);
+		static std::unique_ptr<ChessPiece> createPiece(ChessPieceType, PieceColor,  IChessBoardNotifier * board = nullptr);
 		static std::unique_ptr<ChessPiece> createEmpty();
 
 	};
@@ -41,16 +41,13 @@ namespace chess_engine
 	class ChessPiece : IObserver
 	{
 	public:
-		ChessPiece(ChessPieceType type, PieceColor color) : 
+		ChessPiece(ChessPieceType type, PieceColor color, IChessBoardNotifier* board = nullptr): 
 			_type(type), 
 			_color(color), 
-			_board(nullptr), 
+			_board(board), 
 			_registrationToken(0),
 			_cachedFrom(INVALID),
-			_cachedMoves({})
-		{}
-
-		ChessPiece(ChessPieceType type, PieceColor color, IChessBoardNotifier* board): ChessPiece(type, color) 
+			_cachedMoves({}) 
 		{
 			if (board)
 			{
@@ -62,7 +59,9 @@ namespace chess_engine
 		ChessPieceType getType() { return _type; };
 		PieceColor getColor() { return _color; }
 
-		virtual std::vector<base::Vector2d> getPossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map) = 0;
+		virtual std::vector<base::Vector2d> generatePossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map) = 0;
+		
+		std::vector<base::Vector2d> getPossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map);
 		bool isValidMove(base::Vector2d from, base::Vector2d to, ChessBoardMatrix<ChessPiece>& map);
 		bool NextTurnEvent() override;
 
@@ -72,6 +71,7 @@ namespace chess_engine
 	private:
 
 		friend class ChessPiecesTest;
+		friend class ChessBoardTest;
 
 		PieceColor _color;
 		ChessPieceType _type;

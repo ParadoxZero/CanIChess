@@ -8,7 +8,7 @@ namespace pieces
 	public:
 
 		Empty() : ChessPiece(ChessPieceType::Empty, /* Not Relevant */ PieceColor::White) {}
-		std::vector<base::Vector2d> getPossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map) override;
+		std::vector<base::Vector2d> generatePossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map) override;
 	};
 }
 }
