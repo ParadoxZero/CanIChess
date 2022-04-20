@@ -118,7 +118,7 @@ namespace renderer::backend::sfml {
     {
         switch (event.type)
         {
-            case sf::Event::KeyPressed: __fallthrough;
+            case sf::Event::KeyPressed:
             case sf::Event::KeyReleased:
                 return interateOverCallbacks<renderer::api::KeyboardEvent>(_keyboardEventMethods, {});
             case sf::Event::MouseButtonPressed:
