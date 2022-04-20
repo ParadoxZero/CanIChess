@@ -68,13 +68,7 @@ namespace chess_engine
 
 		std::unique_ptr<ChessPiece> Clone() { return ChessPieceFactory::createPiece(_type, _color); }
 
-		~ChessPiece()
-		{
-			if (_board)
-			{
-				_board->UnsubscribeToTurnNotification(_registrationToken);
-			}
-		}
+		virtual ~ChessPiece();
 	private:
 
 		friend class ChessPiecesTest;
