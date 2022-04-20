@@ -19,14 +19,8 @@ add_subdirectory("renderer")
 set(LINK_TARGETS
 	chess_engine
 	renderer
-	sfml-window
-	sfml-system
-	sfml-graphics
-	sfml-audio
 	CanIChess
 	imgui
-	ImGui-SFML
-	OpenGL
 )
 target_link_libraries(game PRIVATE ${LINK_TARGETS})
 

@@ -19,7 +19,7 @@ namespace renderer::api {
 
         typedef std::size_t RegistrationToken;
 
-        static std::unique_ptr<IWindow> createWindow(WindowOptions& config) { return nullptr; };
+        static std::unique_ptr<IWindow> createWindow(WindowOptions& config);
 
         virtual RegistrationToken registerKeyboardEvent(KeyboardEventCallback callback) = 0;
         virtual RegistrationToken registerPointerEvent(PointerEventCallback callback) = 0;
@@ -27,7 +27,7 @@ namespace renderer::api {
         virtual bool setImGuiLoop(std::function<void(void)> method) = 0;
         virtual bool updateWindowProps(WindowOptions& options) = 0;
         virtual bool initGUI() = 0;
-        virtual bool windowEventLoop() = 0;
+        virtual bool startEventLoop() = 0;
         virtual bool destroyWindow() = 0;
     };
 }

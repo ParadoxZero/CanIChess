@@ -1,23 +1,33 @@
 ﻿// CanIChess.cpp : Defines the entry point for the application.
 //
 
-#include <SFML/Window.hpp>
+#include "renderer/api/window.h"
+
+#include <imgui.h>
+using namespace renderer::api;
 
 using namespace std;
 
-int main()
+int main() 
 {
-	sf::Window window(sf::VideoMode(800, 600), "My window");
-   while (window.isOpen())
-   {
-       // check all the window's events that were triggered since the last iteration of the loop
-       sf::Event event;
-       while (window.pollEvent(event))
-       {
-           // "close requested" event: we close the window
-           if (event.type == sf::Event::Closed)
-               window.close();
-       }
-   }
-	return 0;
+    IWindow::WindowOptions options;
+    auto window = renderer::api::IWindow::createWindow(options);
+    window->initGUI();
+    window->setImGuiLoop(
+        [&window]
+        {
+            ImGui::SetNextWindowPos({ 50,50 });
+            ImGui::Begin("Main Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+            ImGui::Text("Can I Chess?");
+            ImGui::Button("Start New Game");
+            ImGui::Button("Leaderboard");
+            if (ImGui::SmallButton("Exit"))
+            {
+                window->destroyWindow();
+            }
+            ImGui::End();
+        }
+    );
+    window->startEventLoop();
+    return 0;
 }

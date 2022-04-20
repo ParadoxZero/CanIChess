@@ -5,7 +5,7 @@ namespace renderer::api {
     class IWrapper
     {
     public:
-        virtual IWrapper* getWeapRef() = 0;
+        virtual IWrapper* getWeapRef() { return nullptr; };
     };
 }
 
