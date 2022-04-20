@@ -9,12 +9,23 @@ namespace chess_engine {
 
 	const base::Vector2d ChessPiece::INVALID = { -1,-1 };
 
+	std::vector<base::Vector2d> ChessPiece::getPossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map)
+	{
+		if(_board != nullptr && _cachedFrom == current_position)
+		{
+			return _cachedMoves;
+		}
+		
+		return generatePossibleMoves(current_position, map);
+	}
+
+
 	bool ChessPiece::isValidMove(base::Vector2d from, base::Vector2d to, ChessBoardMatrix<ChessPiece>& map)
 	{
 		if (_cachedFrom != from)
 		{
 			_cachedFrom = from;
-			getPossibleMoves(from, map);
+			generatePossibleMoves(from, map);
 			return isValidMove(from, to, map);
 		}
 
@@ -35,5 +46,6 @@ namespace chess_engine {
 		{
 			_board->UnsubscribeToTurnNotification(_registrationToken);
 		}
+		_board = nullptr;
 	}
 }

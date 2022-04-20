@@ -12,16 +12,18 @@
 
 namespace chess_engine
 {
-	std::unique_ptr<ChessPiece> ChessPieceFactory::createPiece(ChessPieceType type, PieceColor color)
+	class ChessBoard;
+	
+	std::unique_ptr<ChessPiece> ChessPieceFactory::createPiece(ChessPieceType type, PieceColor color, IChessBoardNotifier* board)
 	{
 		switch (type)
 		{
-		case ChessPieceType::King:		return std::unique_ptr<ChessPiece>(new pieces::King(color));
-		case ChessPieceType::Queen:		return std::unique_ptr<ChessPiece>(new pieces::Queen(color));
-		case ChessPieceType::Bishop:	return std::unique_ptr<ChessPiece>(new pieces::Bishop(color));
-		case ChessPieceType::Knight:	return std::unique_ptr<ChessPiece>(new pieces::Knight(color));
-		case ChessPieceType::Rook:		return std::unique_ptr<ChessPiece>(new pieces::Rook(color));
-		case ChessPieceType::Pawn:		return std::unique_ptr<ChessPiece>(new pieces::Pawn(color));
+		case ChessPieceType::King:		return std::unique_ptr<ChessPiece>(new pieces::King(color, board));
+		case ChessPieceType::Queen:		return std::unique_ptr<ChessPiece>(new pieces::Queen(color, board));
+		case ChessPieceType::Bishop:	return std::unique_ptr<ChessPiece>(new pieces::Bishop(color, board));
+		case ChessPieceType::Knight:	return std::unique_ptr<ChessPiece>(new pieces::Knight(color, board));
+		case ChessPieceType::Rook:		return std::unique_ptr<ChessPiece>(new pieces::Rook(color, board));
+		case ChessPieceType::Pawn:		return std::unique_ptr<ChessPiece>(new pieces::Pawn(color, board));
 		case ChessPieceType::Empty:
 		default:
 			return std::unique_ptr<ChessPiece>(new pieces::Empty());

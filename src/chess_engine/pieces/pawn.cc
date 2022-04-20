@@ -22,7 +22,7 @@ namespace pieces
 	static const int BLACK_SIGN = 1;
 	static const int WHITE_SIGN = -1;
 
-	std::vector<base::Vector2d> Pawn::getPossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map)
+	std::vector<base::Vector2d> Pawn::generatePossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map)
 	{
 		_cachedMoves.clear();
 		_cachedFrom = current_position;

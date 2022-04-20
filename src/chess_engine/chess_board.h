@@ -18,6 +18,8 @@ namespace chess_engine
     public:
         ChessBoard();
 
+        ChessBoard(const ChessBoard&) = delete;
+
         const uint8_t BOARD_SIZE = 8;
 
         ChessBoardMatrix<ChessPiece> getState();

@@ -7,15 +7,20 @@
 using namespace std;
 using namespace base;
 
-#define BLACK(a) {ChessPieceFactory::createPiece(a, Black)}
-#define WHITE(a) {ChessPieceFactory::createPiece(a, White)}
+#define BLACK(a) {ChessPieceFactory::createPiece(a, Black, this)}
+#define WHITE(a) {ChessPieceFactory::createPiece(a, White, this)}
 #define EMPTY {ChessPieceFactory::createEmpty()}
 
 namespace chess_engine
 {
 
     ChessBoard::ChessBoard() : 
-        _state {{
+        _turnObservers(),
+        _moveHistory()
+    {
+        SubscribeToTurnNotification(this);
+
+        _state = {{
             {{BLACK(Rook),   BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Rook)}},
             {{BLACK(Bishop), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Bishop)}},
             {{BLACK(Knight), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Knight)}},
@@ -24,10 +29,7 @@ namespace chess_engine
             {{BLACK(Knight), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Knight)}},
             {{BLACK(Bishop), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Bishop)}},
             {{BLACK(Rook),   BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Rook)}},
-        }}
-    {
-        SubscribeToTurnNotification(this);
-        //SyncBitmapCache();
+        }};
     }
 
     PieceColor ChessBoard::getCurrentColor()
@@ -79,7 +81,7 @@ namespace chess_engine
 
     std::vector<base::Vector2d> ChessBoard::getPossibleMoves(base::Vector2d from)
     {
-        return std::vector<base::Vector2d>();
+        return _state[from.x][from.y]->getPossibleMoves(from, _state);
     }
 
     ObserverRegistrationToken ChessBoard::SubscribeToTurnNotification(IObserver *observer)
@@ -91,6 +93,7 @@ namespace chess_engine
 
     void ChessBoard::UnsubscribeToTurnNotification(ObserverRegistrationToken token)
     {
+        if(token > _turnObservers.size()) return;
         auto oberverToRemove = _turnObservers.begin() + token;
         _turnObservers.erase(oberverToRemove);
     }

@@ -16,7 +16,7 @@ namespace chess_engine::pieces
 		{1,-1}
 	};
 
-	std::vector<base::Vector2d> King::getPossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map)
+	std::vector<base::Vector2d> King::generatePossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map)
 	{
 		_cachedMoves.clear();
 		_cachedFrom = current_position;

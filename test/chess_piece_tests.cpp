@@ -55,7 +55,7 @@ namespace chess_engine::pieces {
         std::unique_ptr<ChessPiece> pawn = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
         std::array<std::array<std::unique_ptr<ChessPiece>, 8>, 8> map = initMap();
         map[0][6] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
-        auto move_list = pawn->getPossibleMoves({0,6}, map);
+        auto move_list = pawn->generatePossibleMoves({0,6}, map);
 
         ASSERT_EQ(move_list.size(), 2);
         base::Vector2d test_result{ 0,5 };
@@ -66,7 +66,7 @@ namespace chess_engine::pieces {
         EXPECT_TRUE(pawn->isValidMove({0,6}, test_result, map));
 
         map[1][5] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, Black);
-        move_list = pawn->getPossibleMoves({ 0,6 }, map);
+        move_list = pawn->generatePossibleMoves({ 0,6 }, map);
 
         ASSERT_EQ(move_list.size(), 3);
         test_result = {0, 5};
@@ -80,25 +80,25 @@ namespace chess_engine::pieces {
         EXPECT_TRUE(pawn->isValidMove({ 0,6 }, test_result, map));
 
         map = initMap();
-        move_list = pawn->getPossibleMoves({ 0,0 }, map);
+        move_list = pawn->generatePossibleMoves({ 0,0 }, map);
         ASSERT_EQ(move_list.size(), 0);
 
         map[2][3] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
         map[2][2] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
 
-        move_list = pawn->getPossibleMoves({ 2,3 }, map);
+        move_list = pawn->generatePossibleMoves({ 2,3 }, map);
         ASSERT_EQ(move_list.size(), 0);
 
         map[2][3] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
         map[2][2] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, Black);
 
-        move_list = pawn->getPossibleMoves({ 2,3 }, map);
+        move_list = pawn->generatePossibleMoves({ 2,3 }, map);
         ASSERT_EQ(move_list.size(), 0);
 
         map[2][3] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
         map[2][2] = ChessPieceFactory::createPiece(ChessPieceType::Empty, White);
 
-        move_list = pawn->getPossibleMoves({ 2,3 }, map);
+        move_list = pawn->generatePossibleMoves({ 2,3 }, map);
         ASSERT_EQ(move_list.size(), 2);
 
         /* White pawn movement from 6 to 0 */
@@ -108,7 +108,7 @@ namespace chess_engine::pieces {
         map[3][2] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, Black);
         map[1][2] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, Black);
 
-        move_list = pawn->getPossibleMoves({ 2,3 }, map);
+        move_list = pawn->generatePossibleMoves({ 2,3 }, map);
         ASSERT_EQ(move_list.size(), 4);
 
         std::vector<base::Vector2d> test_reference { {2,2},{2,1},{1,2},{3,2} };
@@ -127,7 +127,7 @@ namespace chess_engine::pieces {
         map[3][2] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
         map[1][2] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
 
-        move_list = pawn->getPossibleMoves({ 2,3 }, map);
+        move_list = pawn->generatePossibleMoves({ 2,3 }, map);
         ASSERT_EQ(move_list.size(), 2);
 
         test_reference = { {2,2},{2,1} /*, {3,3},{1,3} */};
@@ -143,7 +143,7 @@ namespace chess_engine::pieces {
         map[3][3] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
         map[1][3] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
 
-        move_list = pawn->getPossibleMoves({ 2,2 }, map);
+        move_list = pawn->generatePossibleMoves({ 2,2 }, map);
         ASSERT_EQ(move_list.size(), 4);
 
         test_reference = { {2,3},{2,4},{3,3},{1,3} };
@@ -161,7 +161,7 @@ namespace chess_engine::pieces {
         map[3][3] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, Black);
         map[1][3] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, Black);
 
-        move_list = pawn->getPossibleMoves({ 2,2 }, map);
+        move_list = pawn->generatePossibleMoves({ 2,2 }, map);
         ASSERT_EQ(move_list.size(), 2);
 
         test_reference = { {2,3},{2,4} /*, {3,3},{1,3} */ };
@@ -189,14 +189,14 @@ namespace chess_engine::pieces {
         std::vector<base::Vector2d> test_results;
         std::vector<base::Vector2d> return_vector;
         map[3][3] = ChessPieceFactory::createPiece(ChessPieceType::Knight, White);
-        return_vector = knight->getPossibleMoves({ 3,3 }, map);
+        return_vector = knight->generatePossibleMoves({ 3,3 }, map);
         test_results = { {4,5}, {2,5}, {2,1}, {4,1}, {1,2}, {5,2}, {1,4}, {5,4} };
         EXPECT_TRUE(AreEqual(return_vector, test_results));
 
         /* Knight at corner - Check for bounds */
         map = initMap();
         map[0][0] = ChessPieceFactory::createPiece(ChessPieceType::Knight, White);
-        return_vector = knight->getPossibleMoves({ 0,0 }, map);
+        return_vector = knight->generatePossibleMoves({ 0,0 }, map);
         test_results = { {1,2}, {2,1}, };
         EXPECT_TRUE(AreEqual(return_vector, test_results));
 
@@ -212,7 +212,7 @@ namespace chess_engine::pieces {
         map[4][5] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
         map[2][1] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
         map[2][5] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
-        return_vector = knight->getPossibleMoves({ 3,3 }, map);
+        return_vector = knight->generatePossibleMoves({ 3,3 }, map);
         test_results = {};
         EXPECT_TRUE(AreEqual(return_vector, test_results));
 
@@ -231,7 +231,7 @@ namespace chess_engine::pieces {
         map[2][1] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
         map[2][5] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
 
-        return_vector = knight->getPossibleMoves({ 3,3 }, map);
+        return_vector = knight->generatePossibleMoves({ 3,3 }, map);
         test_results = { {1,2}, {5,2}, {1,4}, {5,4} };
         EXPECT_TRUE(AreEqual(return_vector, test_results));
     }
@@ -245,19 +245,19 @@ namespace chess_engine::pieces {
 
         map = initMap();
         map[3][3] = ChessPieceFactory::createPiece(King, White);
-        return_vector = king->getPossibleMoves({ 3,3 }, map);
+        return_vector = king->generatePossibleMoves({ 3,3 }, map);
         test_results = { {4,3}, {4,4}, {3,4}, {2,4}, {2,3}, {2,2}, {3,2}, {4,2} };
         EXPECT_TRUE(AreEqual(return_vector, test_results));
 
         map = initMap();
         map[3][0] = ChessPieceFactory::createPiece(King, White);
-        return_vector = king->getPossibleMoves({ 3,0 }, map);
+        return_vector = king->generatePossibleMoves({ 3,0 }, map);
         test_results = { {4,0}, {4,1}, {3,1}, {2,1}, {2,0}};
         EXPECT_TRUE(AreEqual(return_vector, test_results));
 
         map = initMap();
         map[0][0] = ChessPieceFactory::createPiece(King, White);
-        return_vector = king->getPossibleMoves({ 0,0 }, map);
+        return_vector = king->generatePossibleMoves({ 0,0 }, map);
         test_results = { {1,0}, {1,1}, {0,1} };
         EXPECT_TRUE(AreEqual(return_vector, test_results));
 
@@ -275,7 +275,7 @@ namespace chess_engine::pieces {
         map[4][2] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
 
 
-        return_vector = king->getPossibleMoves({ 3,3 }, map);
+        return_vector = king->generatePossibleMoves({ 3,3 }, map);
         test_results = {{4,3}, {3,4}, {2,2}, {3,2}};
         EXPECT_TRUE(AreEqual(return_vector, test_results));
 
@@ -293,7 +293,7 @@ namespace chess_engine::pieces {
         map[4][2] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
 
 
-        return_vector = king->getPossibleMoves({ 3,3 }, map);
+        return_vector = king->generatePossibleMoves({ 3,3 }, map);
         test_results = { {4,3}, {3,4}, {2,2}, {3,2}, {1,1} };
         EXPECT_FALSE(AreEqual(return_vector, test_results));
 
