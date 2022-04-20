@@ -99,21 +99,21 @@ namespace chess_engine
             }
         }
 
-        // auto map = board.getState();
+        auto map = board.getState();
 
-        // for (int i = 0; i < 8; ++i)
-        // {
-        //     for (int j = 0; j < 8; ++j)
-        //     {
-        //         if (boardReference[i][j].type == Empty)
-        //         {
-        //             EXPECT_EQ(map[i][j]->getType(), Empty);
-        //         }
-        //         else {
-        //             EXPECT_EQ(map[i][j]->getColor(), boardReference[i][j].color);
-        //         }
-        //     }
-        // }
+        for (int i = 0; i < 8; ++i)
+        {
+            for (int j = 0; j < 8; ++j)
+            {
+                if (boardReference[i][j].type == Empty)
+                {
+                    EXPECT_EQ(map[i][j]->getType(), Empty);
+                }
+                else {
+                    EXPECT_EQ(map[i][j]->getColor(), boardReference[i][j].color);
+                }
+            }
+        }
     }
 
     TEST_F(ChessBoardTest, TestPlayMove)
