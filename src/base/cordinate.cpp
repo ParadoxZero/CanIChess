@@ -2,26 +2,26 @@
 
 namespace base
 {
-    Cordinate operator+(Cordinate lhs, Cordinate rhs)
+    Vector2d operator+(Vector2d lhs, Vector2d rhs)
     {
         lhs.x += rhs.x;
         lhs.y += rhs.y;
         return lhs;
     }
 
-    Cordinate operator-(Cordinate lhs, Cordinate rhs)
+    Vector2d operator-(Vector2d lhs, Vector2d rhs)
     {
         lhs.x -= rhs.x;
         lhs.y -= rhs.y;
         return lhs;
     }
 
-    bool operator==(const Cordinate& lhs, const Cordinate& rhs)
+    bool operator==(const Vector2d& lhs, const Vector2d& rhs)
     {
         return lhs.x == rhs.x && lhs.y == rhs.y;
     }
 
-    bool operator!=(const Cordinate& lhs, const Cordinate& rhs)
+    bool operator!=(const Vector2d& lhs, const Vector2d& rhs)
     {
         return lhs.x != rhs.x || lhs.y != rhs.y;
     }

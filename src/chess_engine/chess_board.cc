@@ -55,7 +55,7 @@ namespace chess_engine
         return copyState;
     }
 
-    Result ChessBoard::playMove(base::Cordinate from, base::Cordinate to)
+    Result ChessBoard::playMove(base::Vector2d from, base::Vector2d to)
     {
         auto subject = _state[from.x][from.y].get();
         if (subject->getColor() != getCurrentColor())
@@ -77,9 +77,9 @@ namespace chess_engine
         return Result::Success;
     }
 
-    std::vector<base::Cordinate> ChessBoard::getPossibleMoves(base::Cordinate from)
+    std::vector<base::Vector2d> ChessBoard::getPossibleMoves(base::Vector2d from)
     {
-        return std::vector<base::Cordinate>();
+        return std::vector<base::Vector2d>();
     }
 
     ObserverRegistrationToken ChessBoard::SubscribeToTurnNotification(IObserver *observer)

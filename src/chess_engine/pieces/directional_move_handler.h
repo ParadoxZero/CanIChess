@@ -24,15 +24,15 @@ namespace chess_engine {
             friend class DirectionalMoveHandlerTests;
 
         public:
-            std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position, Direction direction, ChessBoard& board);
-            std::vector<base::Cordinate> getMovesLeft(base::Cordinate current_position, Direction direction, ChessBoard& board);
-            std::vector<base::Cordinate> getMovesRight(base::Cordinate current_position, Direction direction, ChessBoard& board);
-            std::vector<base::Cordinate> getMovesUp(base::Cordinate current_position, Direction direction, ChessBoard& board);
-            std::vector<base::Cordinate> getMovesDown(base::Cordinate current_position, Direction direction, ChessBoard& board);
-            std::vector<base::Cordinate> getMovesUpLeft(base::Cordinate current_position, Direction direction, ChessBoard& board);
-            std::vector<base::Cordinate> getMovesDownLeft(base::Cordinate current_position, Direction direction, ChessBoard& board);
-            std::vector<base::Cordinate> getMovesUpRight(base::Cordinate current_position, Direction direction, ChessBoard& board);
-            std::vector<base::Cordinate> getMovesDownRight(base::Cordinate current_position, Direction direction, ChessBoard& board);
+            std::vector<base::Vector2d> getPossibleMoves(base::Vector2d current_position, Direction direction, ChessBoard& board);
+            std::vector<base::Vector2d> getMovesLeft(base::Vector2d current_position, Direction direction, ChessBoard& board);
+            std::vector<base::Vector2d> getMovesRight(base::Vector2d current_position, Direction direction, ChessBoard& board);
+            std::vector<base::Vector2d> getMovesUp(base::Vector2d current_position, Direction direction, ChessBoard& board);
+            std::vector<base::Vector2d> getMovesDown(base::Vector2d current_position, Direction direction, ChessBoard& board);
+            std::vector<base::Vector2d> getMovesUpLeft(base::Vector2d current_position, Direction direction, ChessBoard& board);
+            std::vector<base::Vector2d> getMovesDownLeft(base::Vector2d current_position, Direction direction, ChessBoard& board);
+            std::vector<base::Vector2d> getMovesUpRight(base::Vector2d current_position, Direction direction, ChessBoard& board);
+            std::vector<base::Vector2d> getMovesDownRight(base::Vector2d current_position, Direction direction, ChessBoard& board);
 
         };
     }

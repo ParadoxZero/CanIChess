@@ -4,9 +4,9 @@ namespace chess_engine
 {
 namespace pieces 
 {
-std::vector<base::Cordinate> Bishop::getPossibleMoves(base::Cordinate current_position, ChessBoardMatrix<ChessPiece>& map)
+std::vector<base::Vector2d> Bishop::getPossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map)
 {
-	return std::vector<base::Cordinate>();
+	return std::vector<base::Vector2d>();
 }
 
 }

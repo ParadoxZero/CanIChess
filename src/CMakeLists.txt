@@ -14,10 +14,11 @@ add_executable (game "main.cpp")
 add_library(CanIChess STATIC ${SOURCE_FILES})
 
 add_subdirectory("chess_engine")
+add_subdirectory("renderer")
 
 set(LINK_TARGETS
-	sfml-window
 	chess_engine
+	renderer
 	CanIChess
 	imgui
 )

@@ -7,9 +7,9 @@ namespace chess_engine {
 
 	template<class T> using ChessBoardMatrix = std::array<std::array<std::unique_ptr<T>, 8>, 8>;
 
-	const base::Cordinate ChessPiece::INVALID = { -1,-1 };
+	const base::Vector2d ChessPiece::INVALID = { -1,-1 };
 
-	bool ChessPiece::isValidMove(base::Cordinate from, base::Cordinate to, ChessBoardMatrix<ChessPiece>& map)
+	bool ChessPiece::isValidMove(base::Vector2d from, base::Vector2d to, ChessBoardMatrix<ChessPiece>& map)
 	{
 		if (_cachedFrom != from)
 		{

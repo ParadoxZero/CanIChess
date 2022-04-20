@@ -23,8 +23,8 @@ namespace chess_engine
         ChessBoardMatrix<ChessPiece> getState();
 
         PieceColor getCurrentColor();
-        base::Result playMove(base::Cordinate from, base::Cordinate to);
-        std::vector<base::Cordinate> getPossibleMoves(base::Cordinate from);
+        base::Result playMove(base::Vector2d from, base::Vector2d to);
+        std::vector<base::Vector2d> getPossibleMoves(base::Vector2d from);
 
         ObserverRegistrationToken SubscribeToTurnNotification(IObserver *observer) override;
         void UnsubscribeToTurnNotification(ObserverRegistrationToken token) override;
@@ -35,7 +35,7 @@ namespace chess_engine
 
         ChessBoardMatrix<ChessPiece> _state;
         std::vector<IObserver*> _turnObservers;
-        std::vector<std::pair<base::Cordinate, base::Cordinate>> _moveHistory;
+        std::vector<std::pair<base::Vector2d, base::Vector2d>> _moveHistory;
 
         bool NotifyNextTurn();
     };

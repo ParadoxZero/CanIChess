@@ -62,8 +62,8 @@ namespace chess_engine
 		ChessPieceType getType() { return _type; };
 		PieceColor getColor() { return _color; }
 
-		virtual std::vector<base::Cordinate> getPossibleMoves(base::Cordinate current_position, ChessBoardMatrix<ChessPiece>& map) = 0;
-		bool isValidMove(base::Cordinate from, base::Cordinate to, ChessBoardMatrix<ChessPiece>& map);
+		virtual std::vector<base::Vector2d> getPossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map) = 0;
+		bool isValidMove(base::Vector2d from, base::Vector2d to, ChessBoardMatrix<ChessPiece>& map);
 		bool NextTurnEvent() override;
 
 		std::unique_ptr<ChessPiece> Clone() { return ChessPieceFactory::createPiece(_type, _color); }
@@ -85,8 +85,8 @@ namespace chess_engine
 		IChessBoardNotifier* _board;
 
 	protected:
-		std::vector<base::Cordinate> _cachedMoves;
-		base::Cordinate _cachedFrom;
-		static const base::Cordinate INVALID;
+		std::vector<base::Vector2d> _cachedMoves;
+		base::Vector2d _cachedFrom;
+		static const base::Vector2d INVALID;
 	};
 }
