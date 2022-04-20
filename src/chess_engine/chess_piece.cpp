@@ -28,4 +28,12 @@ namespace chess_engine {
 		_cachedFrom = INVALID;
 		return true;
 	}
+
+	ChessPiece::~ChessPiece()
+	{
+		if (_board != nullptr && _registrationToken > 0)
+		{
+			_board->UnsubscribeToTurnNotification(_registrationToken);
+		}
+	}
 }
