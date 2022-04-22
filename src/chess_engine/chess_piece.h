@@ -60,6 +60,7 @@ namespace chess_engine
 		PieceColor getColor() { return _color; }
 
 		virtual std::vector<base::Vector2d> generatePossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map) = 0;
+		virtual std::vector<base::Vector2d> getAllMoves(base::Vector2d current_Position);
 		
 		std::vector<base::Vector2d> getPossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map);
 		bool isValidMove(base::Vector2d from, base::Vector2d to, ChessBoardMatrix<ChessPiece>& map);

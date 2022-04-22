@@ -9,6 +9,11 @@ namespace chess_engine {
 
 	const base::Vector2d ChessPiece::INVALID = { -1,-1 };
 
+	std::vector<base::Vector2d> ChessPiece::getAllMoves(base::Vector2d from)
+	{
+		return {};
+	}
+
 	std::vector<base::Vector2d> ChessPiece::getPossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map)
 	{
 		if(_board != nullptr && _cachedFrom == current_position)
