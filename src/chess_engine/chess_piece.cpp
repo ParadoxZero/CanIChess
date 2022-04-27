@@ -19,6 +19,11 @@ namespace chess_engine {
 		return generatePossibleMoves(current_position, map);
 	}
 
+	std::vector<base::Vector2d> ChessPiece::getAllMoves(base::Vector2d from, ChessBoardMatrix<ChessPiece>& map)
+	{
+		return generatePossibleMoves(from, map, false);
+	}
+
 
 	bool ChessPiece::isValidMove(base::Vector2d from, base::Vector2d to, ChessBoardMatrix<ChessPiece>& map)
 	{

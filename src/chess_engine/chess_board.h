@@ -32,13 +32,20 @@ namespace chess_engine
         void UnsubscribeToTurnNotification(ObserverRegistrationToken token) override;
         bool NextTurnEvent() override;
 
+        bool PromotePawn(ChessPieceType to);
+
     private:
         friend class ChessBoardTest;
 
         ChessBoardMatrix<ChessPiece> _state;
         std::vector<IObserver*> _turnObservers;
         std::vector<std::pair<base::Vector2d, base::Vector2d>> _moveHistory;
+        std::unique_ptr<base::Vector2d> _promotionCandidate = nullptr;
 
         bool NotifyNextTurn();
+
+        bool Check(base::Vector2d from);
+        bool Checkmate();
+        bool Promote(base::Vector2d from);
     };
 }

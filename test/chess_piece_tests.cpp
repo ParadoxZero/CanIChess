@@ -4,7 +4,8 @@
 #include "../src/chess_engine/chess_piece.h"
 #include "../src/base/result.h"
 
-#include "../src/chess_engine/pieces/pawn.h"
+#include "../src/chess_engine/pieces/utils.h"
+
 
 #include <unordered_set>
 
@@ -93,6 +94,13 @@ namespace chess_engine::pieces {
         map[2][2] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, Black);
 
         move_list = pawn->generatePossibleMoves({ 2,3 }, map);
+        ASSERT_EQ(move_list.size(), 0);
+
+        map = initMap();
+        map[2][2] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, Black);
+        map[2][3] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
+
+        move_list = pawn->generatePossibleMoves({ 2,2 }, map);
         ASSERT_EQ(move_list.size(), 0);
 
         map[2][3] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
@@ -297,6 +305,32 @@ namespace chess_engine::pieces {
         test_results = { {4,3}, {3,4}, {2,2}, {3,2}, {1,1} };
         EXPECT_FALSE(AreEqual(return_vector, test_results));
 
+
+    }
+
+    TEST_F(ChessPiecesTest, TestDirectionalMove)
+    {
+        std::vector<base::Vector2d> results;
+        std::array<std::array<std::unique_ptr<ChessPiece>, 8>, 8> map = initMap();
+        map[0][0] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
+
+        results = getPossibleMovesInDirection({ 0,0 }, { {0,1} }, map);
+        EXPECT_TRUE(AreEqual(results, { {0,1},{0,2}, {0,3}, {0,4},{0,5},{0,6},{0,7} }));
+
+        map[0][1] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
+        results = getPossibleMovesInDirection({ 0,0 }, { {0,1} }, map);
+        EXPECT_TRUE(AreEqual(results, {}));
+        EXPECT_FALSE(AreEqual(results, { {0,1} }));
+
+        map = initMap();
+        map[0][3] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
+        results = getPossibleMovesInDirection({ 0,3 }, { {0,1}, {0,-1} }, map);
+        EXPECT_TRUE(AreEqual(results, { {0,0}, {0,1},{0,2}, {0,4},{0,5},{0,6},{0,7} }));
+
+        map = initMap();
+        map[3][3] = ChessPieceFactory::createPiece(ChessPieceType::Pawn, White);
+        results = getPossibleMovesInDirection({ 3,3 }, { {1,1}, {-1,-1}, {1,-1}, {-1,1} }, map);
+        EXPECT_TRUE(AreEqual(results, { {4,4}, {5,5}, {6,6}, {7,7}, {2,4}, {1,5}, {0,6}, {2,2}, {1,1}, {0,0}, {4,2}, {5,1}, {6,0} }));
 
     }
 
