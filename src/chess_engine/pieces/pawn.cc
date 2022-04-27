@@ -22,7 +22,7 @@ namespace pieces
 	static const int BLACK_SIGN = 1;
 	static const int WHITE_SIGN = -1;
 
-	std::vector<base::Vector2d> Pawn::generatePossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map)
+	std::vector<base::Vector2d> Pawn::generatePossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map, bool ignore_friendly)
 	{
 		_cachedMoves.clear();
 		_cachedFrom = current_position;
@@ -39,7 +39,7 @@ namespace pieces
 				break;
 
 			auto &tile = map[new_pos.x][new_pos.y];
-			if (tile->getType() != Empty)
+			if (tile->getType() != Empty && (ignore_friendly? tile->getColor() != current_tile->getColor() : true))
 				break;
 
 			_cachedMoves.push_back(new_pos);

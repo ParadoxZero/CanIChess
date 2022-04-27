@@ -7,7 +7,7 @@ namespace pieces
 	{
 	public:
 		Knight(PieceColor color, IChessBoardNotifier* board) : ChessPiece(ChessPieceType::Knight, color, board) {}
-		std::vector<base::Vector2d> generatePossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map) override;
+		std::vector<base::Vector2d> generatePossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map, bool ignore_friendly = false) override;
 	};
 }
 }
