@@ -59,9 +59,9 @@ namespace chess_engine
 		ChessPieceType getType() { return _type; };
 		PieceColor getColor() { return _color; }
 
-		virtual std::vector<base::Vector2d> generatePossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map) = 0;
-		virtual std::vector<base::Vector2d> getAllMoves(base::Vector2d current_Position);
-		
+		virtual std::vector<base::Vector2d> generatePossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map, bool ignore_friendly = false) = 0;
+		virtual std::vector<base::Vector2d> getAllMoves(base::Vector2d from, ChessBoardMatrix<ChessPiece>& map);
+
 		std::vector<base::Vector2d> getPossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map);
 		bool isValidMove(base::Vector2d from, base::Vector2d to, ChessBoardMatrix<ChessPiece>& map);
 		bool NextTurnEvent() override;

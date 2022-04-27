@@ -26,8 +26,8 @@ namespace chess_engine
             {{BLACK(Rook),   BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Rook)}},
             {{BLACK(Bishop), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Bishop)}},
             {{BLACK(Knight), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Knight)}},
-            {{BLACK(King),   BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Queen)}},
-            {{BLACK(Queen),  BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(King)}},
+            {{BLACK(Queen),  BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Queen)}},
+            {{BLACK(King),   BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(King)}},
             {{BLACK(Knight), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Knight)}},
             {{BLACK(Bishop), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Bishop)}},
             {{BLACK(Rook),   BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Rook)}},
@@ -150,32 +150,45 @@ namespace chess_engine
 
     bool ChessBoard::Checkmate()
     {
-        auto current_color = getCurrentColor();
-        ChessPiece* enemy_king = nullptr;
+        auto victim_color = getCurrentColor();
         vector<base::Vector2d> enemy_king_moves;
-        bool map[8][8] = { 0 };
+        base::Vector2d kingOriginalPosition(-1,-1);
         for (int8_t i = 0; i < _state.size(); ++i)
         {
             for (int8_t j = 0; j < _state[i].size(); ++j)
             {
-                if (_state[i][j]->getColor() == current_color)
-                {
-                    vector<base::Vector2d> moveList = _state[i][j]->getAllMoves({i,j});
-                    for (auto& move : moveList)
-                    {
-                        map[move.x][move.y] = true;
-                    }
-                }
-                else if (_state[i][j]->getType() == ChessPieceType::King )
+                if (_state[i][j]->getType() == ChessPieceType::King  && _state[i][j]->getColor() == victim_color)
                 {
                     enemy_king_moves = _state[i][j]->getPossibleMoves({i,j}, _state);
+                    kingOriginalPosition = { i,j };
                 }
             }
         }
 
-        for (auto& move : enemy_king_moves)
+        for (auto& kingPosition : enemy_king_moves)
         {
-            if (!_state[move.x][move.y])
+            bool isKilled = false;
+            auto new_state = getState();
+            new_state[kingPosition.x][kingPosition.y] = std::move(new_state[kingOriginalPosition.x][kingOriginalPosition.y]);
+            new_state[kingOriginalPosition.x][kingOriginalPosition.y] = ChessPieceFactory::createEmpty();
+            for (int8_t i = 0; i < new_state.size(); ++i)
+            {
+                for (int8_t j = 0; j < new_state[i].size(); ++j)
+                {
+                    if (new_state[i][j]->getColor() != victim_color)
+                    {
+                        vector<base::Vector2d> moveList = new_state[i][j]->getAllMoves({i,j}, new_state);
+                        for (auto& attackedPosition : moveList)
+                        {
+                            if (attackedPosition == kingPosition) {
+                                isKilled = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!isKilled)
             {
                 return false;
             }

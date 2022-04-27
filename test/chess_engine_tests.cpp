@@ -52,6 +52,11 @@ namespace chess_engine
             return board._state[from.x][from.y]->_cachedMoves;
         }
 
+        bool check(ChessBoard& board, base::Vector2d from)
+        {
+            return board.Check(from);
+        }
+
         bool AreEqual(std::vector<base::Vector2d> a, std::vector<base::Vector2d> b)
         {
             for (auto i : a)
@@ -82,8 +87,8 @@ namespace chess_engine
             {BLACK(Rook),   BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Rook)},
             {BLACK(Bishop), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Bishop)},
             {BLACK(Knight), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Knight)},
-            {BLACK(King),   BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Queen)},
-            {BLACK(Queen),  BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(King)},
+            {BLACK(Queen),  BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Queen)},
+            {BLACK(King),   BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(King)},
             {BLACK(Knight), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Knight)},
             {BLACK(Bishop), BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Bishop)},
             {BLACK(Rook),   BLACK(Pawn), EMPTY, EMPTY, EMPTY, EMPTY, WHITE(Pawn),  WHITE(Rook)},
@@ -256,5 +261,15 @@ namespace chess_engine
         test_results = {};
         EXPECT_TRUE(AreEqual(return_vector, test_results));
         
+    }
+
+    TEST_F(ChessBoardTest, TestFoolsmate)
+    {
+        ChessBoard board;
+
+        EXPECT_EQ(board.playMove({ 5,6 }, { 5,4 }), base::Result::Success);
+        EXPECT_EQ(board.playMove({ 4,1 }, { 4,2 }), base::Result::Success);
+        EXPECT_EQ(board.playMove({ 6,6 }, { 6,4 }), base::Result::Success);
+        EXPECT_EQ(board.playMove({ 3,0 }, { 7,4 }), base::Result::Checkmate);
     }
 }
