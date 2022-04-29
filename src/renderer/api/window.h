@@ -37,13 +37,13 @@ namespace renderer::api {
         virtual bool startEventLoop() = 0;
         virtual bool destroyWindow() = 0;
 
-        virtual base::Vector2d getSize() = 0;
-        virtual base::Vector2d getPosition() = 0;
+        // virtual base::Vector2Di getSize() = 0;
+        // virtual base::Vector2Di getPosition() = 0;
 
-        virtual int32_t loadTexture(std::string texturePath) = 0;
-        virtual ISprite* createSprite(int32_t textureId) = 0;
-        virtual ISprite* createSprite() = 0;
-        virtual bool removeSprite(ISprite* sprite) = 0;
+        // virtual int32_t loadTexture(std::string texturePath) = 0;
+        // virtual ISprite* createSprite(int32_t textureId) = 0;
+        // virtual ISprite* createSprite() = 0;
+        // virtual bool removeSprite(ISprite* sprite) = 0;
 
         virtual ~IWindow() = default;
     };

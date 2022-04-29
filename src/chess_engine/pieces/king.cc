@@ -5,7 +5,7 @@
 
 namespace chess_engine::pieces
 {
-	static const std::vector<base::Vector2d> validMoves = {
+	static const std::vector<base::Vector2Di> validMoves = {
 		{1,0},
 		{1,1},
 		{0,1},
@@ -16,7 +16,7 @@ namespace chess_engine::pieces
 		{1,-1}
 	};
 
-	std::vector<base::Vector2d> King::generatePossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map, bool ignore_friendly)
+	std::vector<base::Vector2Di> King::generatePossibleMoves(base::Vector2Di current_position, ChessBoardMatrix<ChessPiece>& map, bool ignore_friendly)
 	{
 		_cachedMoves.clear();
 		_cachedFrom = current_position;
@@ -24,9 +24,9 @@ namespace chess_engine::pieces
 
 		if (current_tile->getType() == Empty) { return _cachedMoves; }
 
-		for (base::Vector2d i : validMoves)
+		for (base::Vector2Di i : validMoves)
 		{
-			base::Vector2d new_pos = current_position + i;
+			base::Vector2Di new_pos = current_position + i;
 			if (CheckBoardEdgeCollision(new_pos))
 				continue;
 

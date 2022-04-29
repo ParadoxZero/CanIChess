@@ -59,7 +59,7 @@ namespace chess_engine
         return copyState;
     }
 
-    Result ChessBoard::playMove(base::Vector2d from, base::Vector2d to)
+    Result ChessBoard::playMove(base::Vector2Di from, base::Vector2Di to)
     {
         Result result;
         auto subject = _state[from.x][from.y].get();
@@ -104,7 +104,7 @@ namespace chess_engine
         return result;
     }
 
-    std::vector<base::Vector2d> ChessBoard::getPossibleMoves(base::Vector2d from)
+    std::vector<base::Vector2Di> ChessBoard::getPossibleMoves(base::Vector2Di from)
     {
         return _state[from.x][from.y]->getPossibleMoves(from, _state);
     }
@@ -132,7 +132,7 @@ namespace chess_engine
         return true;
     }
 
-    bool ChessBoard::Check(base::Vector2d from)
+    bool ChessBoard::Check(base::Vector2Di from)
     {
         auto current_color = _state[from.x][from.y]->getColor();
         auto possibleMOves = _state[from.x][from.y]->getPossibleMoves(from, _state);
@@ -151,8 +151,8 @@ namespace chess_engine
     bool ChessBoard::Checkmate()
     {
         auto victim_color = getCurrentColor();
-        vector<base::Vector2d> enemy_king_moves;
-        base::Vector2d kingOriginalPosition(-1,-1);
+        vector<base::Vector2Di> enemy_king_moves;
+        base::Vector2Di kingOriginalPosition(-1,-1);
         for (int8_t i = 0; i < _state.size(); ++i)
         {
             for (int8_t j = 0; j < _state[i].size(); ++j)
@@ -177,7 +177,7 @@ namespace chess_engine
                 {
                     if (new_state[i][j]->getColor() != victim_color)
                     {
-                        vector<base::Vector2d> moveList = new_state[i][j]->getAllMoves({i,j}, new_state);
+                        vector<base::Vector2Di> moveList = new_state[i][j]->getAllMoves({i,j}, new_state);
                         for (auto& attackedPosition : moveList)
                         {
                             if (attackedPosition == kingPosition) {
@@ -196,7 +196,7 @@ namespace chess_engine
         return true;
     }
 
-    bool ChessBoard::Promote(base::Vector2d from)
+    bool ChessBoard::Promote(base::Vector2Di from)
     {
         auto piece = _state[from.x][from.y].get();
 

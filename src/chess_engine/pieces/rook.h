@@ -8,7 +8,7 @@ namespace pieces
 	public:
 
 		Rook(PieceColor color, IChessBoardNotifier* board) : ChessPiece(ChessPieceType::Rook, color, board) {}
-		std::vector<base::Vector2d> generatePossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map, bool ignore_friendly = false) override;
+		std::vector<base::Vector2Di> generatePossibleMoves(base::Vector2Di current_position, ChessBoardMatrix<ChessPiece>& map, bool ignore_friendly = false) override;
 	};
 }
 }

@@ -7,7 +7,7 @@ namespace renderer::api {
 
     namespace imgui {
         void CenteredText(std::string);
-        void CenterWindowX(base::Vector2d parent_size);
+        void CenterWindowX(base::Vector2Di parent_size);
     }
 }
 #endif // !__RENDERER_API_IMGUI_UTILS__

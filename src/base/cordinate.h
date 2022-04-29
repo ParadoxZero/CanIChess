@@ -4,14 +4,18 @@
 #include <stdint.h>
 
 namespace base {
+
+    template<class T>
     struct Vector2d
     {
-        int32_t x;
-        int32_t y;
+        T x;
+        T y;
 
-        Vector2d(int32_t x1, int32_t y1) : x(x1), y(y1) {}
+        Vector2d(T x1, T y1) : x(x1), y(y1) {}
         Vector2d(const Vector2d& old) :x(old.x), y(old.y) { }
     };
+
+    using Vector2Di=Vector2d<int32_t>;
 
     struct Size2D
     {
@@ -22,13 +26,20 @@ namespace base {
         Size2D(const Size2D& old) :x(old.x), y(old.y) { }
     };
 
-    Vector2d operator+(Vector2d lhs, Vector2d rhs);
-    Vector2d operator-(Vector2d lhs, Vector2d rhs);
-    bool operator==(const Vector2d& lhs, const Vector2d& rhs);
-    bool operator!=(const Vector2d& lhs, const Vector2d& rhs);
+    template<class T>
+    Vector2d<T> operator+(Vector2d<T> lhs, Vector2d<T> rhs);
+    
+    template<class T>
+    Vector2d<T> operator-(Vector2d<T> lhs, Vector2d<T> rhs);
+    
+    template<class T>
+    bool operator==(const Vector2d<T>& lhs, const Vector2d<T>& rhs);
+    
+    template<class T>
+    bool operator!=(const Vector2d<T>& lhs, const Vector2d<T>& rhs);
 
     template<class T>
-    inline Vector2d& operator*(Vector2d& lhs, T rhs)
+    inline Vector2d<T>& operator*(Vector2d<T>& lhs, T rhs)
     {
         lhs.x *= rhs;
         lhs.y *= rhs;

@@ -4,7 +4,7 @@
 
 namespace renderer::api {
 
-    void imgui::CenteredText(std::string text)
+    void imgui::CenteredText(const std::string text)
     {
         auto windowWidth = ImGui::GetWindowSize().x;
         auto textWidth = ImGui::CalcTextSize(text.c_str()).x;
@@ -13,7 +13,7 @@ namespace renderer::api {
         ImGui::Text(text.c_str());
     }
 
-    void imgui::CenterWindowX(base::Vector2d parent_size)
+    void imgui::CenterWindowX(base::Vector2Di parent_size)
     {
 
     }

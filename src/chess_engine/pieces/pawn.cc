@@ -8,12 +8,12 @@ namespace chess_engine
 {
 namespace pieces 
 {
-	static const std::vector<base::Vector2d> validMoves = {
+	static const std::vector<base::Vector2Di> validMoves = {
 		{0, 1},
 		{0, 2}
 	};
 
-	static const std::vector<base::Vector2d> validKillMoves = {
+	static const std::vector<base::Vector2Di> validKillMoves = {
 		{1,1},
 		{-1,1}
 	};
@@ -22,7 +22,7 @@ namespace pieces
 	static const int BLACK_SIGN = 1;
 	static const int WHITE_SIGN = -1;
 
-	std::vector<base::Vector2d> Pawn::generatePossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map, bool ignore_friendly)
+	std::vector<base::Vector2Di> Pawn::generatePossibleMoves(base::Vector2Di current_position, ChessBoardMatrix<ChessPiece>& map, bool ignore_friendly)
 	{
 		_cachedMoves.clear();
 		_cachedFrom = current_position;
@@ -32,9 +32,9 @@ namespace pieces
 
 		int multiplier = current_tile->getColor() ==  Black ? BLACK_SIGN : WHITE_SIGN;
 
-		for (base::Vector2d i : validMoves)
+		for (base::Vector2Di i : validMoves)
 		{
-			base::Vector2d new_pos = current_position + i * multiplier;
+			base::Vector2Di new_pos = current_position + i * multiplier;
 			if (CheckBoardEdgeCollision(new_pos))
 				break;
 
@@ -45,9 +45,9 @@ namespace pieces
 			_cachedMoves.push_back(new_pos);
 		}
 
-		for (base::Vector2d i : validKillMoves)
+		for (base::Vector2Di i : validKillMoves)
 		{
-			base::Vector2d new_pos = current_position + i * multiplier;
+			base::Vector2Di new_pos = current_position + i * multiplier;
 			if (CheckBoardEdgeCollision(new_pos))
 				continue;
 
