@@ -11,7 +11,7 @@ set(SOURCE_FILES
 	"api/window.h"
 	"renderer_factory.cpp"
 	"api/wrapper.h" 
-	"api/event.h")
+	"api/event.h" "imgui_utils.cpp")
 
 add_library(renderer STATIC ${SOURCE_FILES})
 

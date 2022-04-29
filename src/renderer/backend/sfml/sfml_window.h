@@ -26,6 +26,8 @@ namespace renderer::backend::sfml
 
         bool destroyWindow() override;
 
+        ~Window();
+
     private:
         std::vector<renderer::api::KeyboardEventCallback> _keyboardEventMethods;
         std::vector<renderer::api::PointerEventCallback> _pointerEventMethods;

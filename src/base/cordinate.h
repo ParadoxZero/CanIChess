@@ -6,10 +6,10 @@
 namespace base {
     struct Vector2d
     {
-        int8_t x;
-        int8_t y;
+        int32_t x;
+        int32_t y;
 
-        Vector2d(int8_t x1, int8_t y1) : x(x1), y(y1) {}
+        Vector2d(int32_t x1, int32_t y1) : x(x1), y(y1) {}
         Vector2d(const Vector2d& old) :x(old.x), y(old.y) { }
     };
 

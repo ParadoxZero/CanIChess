@@ -59,7 +59,7 @@ namespace renderer::backend::sfml {
                 _redirectEventToListeners(event);
 
                 if (event.type == sf::Event::Closed) {
-                    _window.close();
+                    _isCloseWindow = true;
                 }
             }
 
@@ -140,6 +140,11 @@ namespace renderer::backend::sfml {
     {
         _isCloseWindow = true;
         return true;
+    }
+
+    Window::~Window()
+    {
+
     }
 }
 
