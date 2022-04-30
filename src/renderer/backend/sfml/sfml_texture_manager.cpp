@@ -16,7 +16,7 @@ namespace renderer::backend::sfml
         std::unique_ptr<sf::Texture> texture = std::make_unique<sf::Texture>();
 
         fs::path absoluteTexturepath = _directoryPath / texturePath;
-        RETURN_BOOL_IF_FALSE(texture->loadFromFile(absoluteTexturepath.c_str()));
+        RETURN_BOOL_IF_FALSE(texture->loadFromFile(absoluteTexturepath.string()));
         _textureMap[textureId] = std::move(texture);
         return true;
     }
