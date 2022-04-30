@@ -6,6 +6,7 @@
 #include <imgui.h>
 #include "renderer/api/imgui_utils.h"
 #include "base/config.h"
+#include "game/assets.h"
 
 using namespace renderer::api;
 
@@ -21,6 +22,11 @@ int main(int argc, char *argv[])
 
     IWindow::WindowOptions options;
     auto window = renderer::api::IWindow::createWindow(options);
+    auto textureManager = window->getTextureManager();
+    textureManager->addTexture(game::AssetId::WhiteTile, game::AssetPath[game::AssetId::WhiteTile]);
+    auto sprite = window->createSprite(game::AssetId::WhiteTile);
+    // sprite->setPosition({200, 300});
+    sprite->setScale(10);
     window->initGUI();
     window->setImGuiLoop(
         [&window]

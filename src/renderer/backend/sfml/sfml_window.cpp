@@ -72,6 +72,10 @@ namespace renderer::backend::sfml
             _imGuiDrawer();
 
             _window.clear();
+            for (auto &sprite : _spriteSet)
+            {
+                _window.draw(*(sprite->getSfSprite()));
+            }
             ImGui::SFML::Render(_window);
             _window.display();
 
@@ -160,24 +164,24 @@ namespace renderer::backend::sfml
 
     api::ISprite *Window::createSprite(int textureId)
     {
-        auto sprite = _textureManager->createSpriteInternal(textureId);
+        auto sprite = std::make_shared<Sprite>(_textureManager->createSpriteInternal(textureId));
         _spriteSet.insert(sprite);
         return dynamic_cast<api::ISprite *>(sprite.get());
     }
 
     api::ISprite *Window::createSprite()
     {
-        auto sprite = std::make_shared<sf::Sprite>();
+        auto sprite = std::make_shared<Sprite>();
         _spriteSet.insert(sprite);
         return dynamic_cast<api::ISprite *>(sprite.get());
     }
 
     bool Window::removeSprite(api::ISprite *sprite)
     {
-        sf::Sprite *sfSprite = dynamic_cast<sf::Sprite *>(sprite);
+        Sprite *sfml_Sprite = dynamic_cast<Sprite *>(sprite);
         for (auto &sfspriteIttr : _spriteSet)
         {
-            if (sfspriteIttr.get() == sfSprite)
+            if (sfspriteIttr.get() == sfml_Sprite)
             {
                 _spriteSet.erase(sfspriteIttr);
                 return true;

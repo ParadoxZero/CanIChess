@@ -1,9 +1,12 @@
 #ifndef __GAME_ASSETS__
-#define __GAME_ASETS__
+#define __GAME_ASSETS__
 
-namespace game::assets
+#include <map>
+#include <string>
+
+namespace game
 {
-    enum class AssetId
+    enum AssetId
     {
         WhiteTile,
         BlackTile,
@@ -21,7 +24,11 @@ namespace game::assets
         BlackBishop,
         BlackQueen,
         BlackKing
-    }
+    };
+
+    std::map<AssetId, std::string> AssetPath{
+        {AssetId::WhiteTile, "assets/squareW.png"},
+        {AssetId::BlackTile, "assets/squareB.png"}};
 }
 
 #endif

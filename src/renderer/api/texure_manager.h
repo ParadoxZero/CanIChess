@@ -12,6 +12,8 @@ namespace renderer::api
     public:
         virtual bool addTexture(int textureId, std::string texturePath) = 0;
         virtual TexturePtr getTexture(int textureId) = 0;
+
+        virtual ~ITextureManager() = default;
     };
 }
 

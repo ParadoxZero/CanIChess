@@ -32,10 +32,10 @@ namespace renderer::backend::sfml
         return _textureMap[textureId].get();
     }
 
-    std::shared_ptr<sf::Sprite> TextureManager::createSpriteInternal(int textureId)
+    sf::Sprite *TextureManager::createSpriteInternal(int textureId)
     {
         sf::Texture *texture = _textureMap[textureId].get();
-        std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
+        sf::Sprite *sprite = new sf::Sprite();
         if (texture)
         {
             sprite->setTexture(*texture);

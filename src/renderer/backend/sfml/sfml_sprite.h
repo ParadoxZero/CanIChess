@@ -11,6 +11,7 @@ namespace renderer::backend::sfml
     class Sprite : public api::ISprite
     {
     public:
+        Sprite() : _sprite(new sf::Sprite()) {}
         Sprite(sf::Sprite sprite) : _sprite(new sf::Sprite(sprite)) {}
         Sprite(sf::Sprite *sprite) : _sprite(sprite) {}
 

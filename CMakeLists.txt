@@ -24,7 +24,6 @@ add_subdirectory ("src")
 add_subdirectory ("test")
 
 set(BUILD_SHARED_LIBS OFF)
-set(SFML_USE_SYSTEM_DEPS OFF)
 set(SFML_BUILD_DOC OFF)
 set(SFML_BUILD_EXAMPLES OFF)
 add_subdirectory("deps/sfml")

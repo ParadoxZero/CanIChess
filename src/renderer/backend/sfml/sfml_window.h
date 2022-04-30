@@ -44,7 +44,7 @@ namespace renderer::backend::sfml
         std::vector<renderer::api::KeyboardEventCallback> _keyboardEventMethods;
         std::vector<renderer::api::PointerEventCallback> _pointerEventMethods;
         std::vector<renderer::api::SystemEventsCallback> _systemEventsCallbacks;
-        std::set<std::shared_ptr<sf::Sprite>> _spriteSet;
+        std::set<std::shared_ptr<Sprite>> _spriteSet;
         std::function<void(void)> _imGuiDrawer;
 
         sf::RenderWindow _window;
