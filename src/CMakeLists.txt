@@ -26,5 +26,11 @@ set(LINK_TARGETS
 )
 target_link_libraries(game PRIVATE ${LINK_TARGETS})
 
+add_custom_target(copy_assets
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/../assets ${CMAKE_CURRENT_BINARY_DIR}/assets
+)
+
+add_dependencies(game copy_assets)
+
 
 # TODO: Add tests and install targets if needed.
