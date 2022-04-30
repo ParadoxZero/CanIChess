@@ -36,6 +36,7 @@ namespace renderer::backend::sfml
     bool Sprite::scale(float scale)
     {
         _sprite->scale(scale, scale);
+        return true;
     }
 
     sf::Sprite *Sprite::getSfSprite()

@@ -7,7 +7,6 @@ set(SOURCE_FILES
 	base/cordinate.h
 	base/result.h
 	base/base.cpp
- 	"base/cordinate.cpp"
 	"base/config.h"
  )
 
