@@ -17,7 +17,8 @@
 using namespace std;
 using namespace renderer::api;
 
-namespace renderer::backend::sfml {
+namespace renderer::backend::sfml
+{
 
     IWindow::RegistrationToken Window::registerKeyboardEvent(KeyboardEventCallback callback)
     {
@@ -38,7 +39,7 @@ namespace renderer::backend::sfml {
         return index;
     }
 
-    bool Window::updateWindowProps(WindowOptions& options)
+    bool Window::updateWindowProps(WindowOptions &options)
     {
         return false;
     }
@@ -51,14 +52,17 @@ namespace renderer::backend::sfml {
     bool Window::startEventLoop()
     {
         sf::Clock deltaClock;
-        while (_window.isOpen()) {
+        while (_window.isOpen())
+        {
             sf::Event event;
-            while (_window.pollEvent(event)) {
+            while (_window.pollEvent(event))
+            {
                 ImGui::SFML::ProcessEvent(_window, event);
 
                 _redirectEventToListeners(event);
 
-                if (event.type == sf::Event::Closed) {
+                if (event.type == sf::Event::Closed)
+                {
                     _isCloseWindow = true;
                 }
             }
@@ -81,7 +85,7 @@ namespace renderer::backend::sfml {
     }
 
     template <class T>
-    static bool interateOverCallbacks(vector <function<bool(T)>> _functionList, T param)
+    static bool interateOverCallbacks(vector<function<bool(T)>> _functionList, T param)
     {
         for (function<bool(T)> &callback : _functionList)
         {
@@ -118,18 +122,18 @@ namespace renderer::backend::sfml {
     {
         switch (event.type)
         {
-            case sf::Event::KeyPressed:
-            case sf::Event::KeyReleased:
-                return interateOverCallbacks<renderer::api::KeyboardEvent>(_keyboardEventMethods, {});
-            case sf::Event::MouseButtonPressed:
-            case sf::Event::EventType::MouseButtonReleased:
-            case sf::Event::EventType::TouchBegan:
-            case sf::Event::EventType::TouchEnded:
-                return interateOverCallbacks<renderer::api::PointerEvent>(_pointerEventMethods, {});
-            default: return interateOverCallbacks<renderer::api::EventType>(_systemEventsCallbacks, {});
+        case sf::Event::KeyPressed:
+        case sf::Event::KeyReleased:
+            return interateOverCallbacks<renderer::api::KeyboardEvent>(_keyboardEventMethods, {});
+        case sf::Event::MouseButtonPressed:
+        case sf::Event::EventType::MouseButtonReleased:
+        case sf::Event::EventType::TouchBegan:
+        case sf::Event::EventType::TouchEnded:
+            return interateOverCallbacks<renderer::api::PointerEvent>(_pointerEventMethods, {});
+        default:
+            return interateOverCallbacks<renderer::api::EventType>(_systemEventsCallbacks, {});
         }
     }
-
 
     bool Window::setImGuiLoop(std::function<void(void)> method)
     {
@@ -142,9 +146,58 @@ namespace renderer::backend::sfml {
         return true;
     }
 
+    base::Vector2Du Window::getSize()
+    {
+        auto size = _window.getSize();
+        return {size.x, size.y};
+    }
+
+    base::Vector2Di Window::getPosition()
+    {
+        auto position = _window.getPosition();
+        return {position.x, position.y};
+    }
+
+    api::ISprite *Window::createSprite(std::string textureName)
+    {
+        auto sprite = _textureManager->getSpriteInternal(textureName);
+        _spriteSet.insert(sprite);
+        return dynamic_cast<api::ISprite *>(sprite.get());
+    }
+
+    api::ISprite *Window::createSprite()
+    {
+        auto sprite = std::make_shared<sf::Sprite>();
+        _spriteSet.insert(sprite);
+        return dynamic_cast<api::ISprite *>(sprite.get());
+    }
+
+    bool Window::removeSprite(api::ISprite *sprite)
+    {
+        sf::Sprite *sfSprite = dynamic_cast<sf::Sprite *>(sprite);
+        for (auto &sfspriteIttr : _spriteSet)
+        {
+            if (sfspriteIttr.get() == sfSprite)
+            {
+                _spriteSet.erase(sfspriteIttr);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    api::ITextureManager *Window::getTextureManager()
+    {
+        return dynamic_cast<api::ITextureManager *>(_textureManager.get());
+    }
+
     Window::~Window()
     {
-
+        if (_window.isOpen())
+        {
+            ImGui::SFML::Shutdown(_window);
+            _window.close();
+        };
     }
 }
 

@@ -4,14 +4,21 @@ set(TARGET_NAME renderer)
 
 set(SFML_SOURCES
 	"backend/sfml/sfml_window.h"
-	"backend/sfml/sfml_window.cpp")
+	"backend/sfml/sfml_window.cpp"
+	"backend/sfml/sfml_sprite.h"
+	"backend/sfml/sfml_sprite.cpp"
+	"backend/sfml/sfml_texture_manager.h"
+	"backend/sfml/sfml_texture_manager.cpp"
+)
 
 set(SOURCE_FILES
 	${SFML_SOURCES}
 	"api/window.h"
-	"renderer_factory.cpp"
 	"api/wrapper.h" 
-	"api/event.h" "imgui_utils.cpp")
+	"api/event.h" 
+	"renderer_factory.cpp"
+	"imgui_utils.cpp"
+)
 
 add_library(renderer STATIC ${SOURCE_FILES})
 

@@ -3,11 +3,13 @@
 
 #include "window.h"
 
-namespace renderer::api {
+// namespace renderer::api {
 
-    namespace imgui {
-        void CenteredText(std::string);
-        void CenterWindowX(base::Vector2Di parent_size);
-    }
+namespace ImGui
+{
+    void CenteredText(const std::string);
+    bool CenteredButton(const std::string text);
+    void CenterNextWindow(base::Vector2Du parent_size, base::Vector2Du windowSize);
 }
+// }
 #endif // !__RENDERER_API_IMGUI_UTILS__

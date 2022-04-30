@@ -6,9 +6,12 @@
 
 #include <memory>
 #include <cstddef>
-#include "sprite.h"
 
-namespace renderer::api {
+#include "sprite.h"
+#include "texure_manager.h"
+
+namespace renderer::api
+{
 
     class IWindow : IWrapper
     {
@@ -24,26 +27,27 @@ namespace renderer::api {
 
         typedef std::size_t RegistrationToken;
 
-        static std::unique_ptr<IWindow> createWindow(WindowOptions& config);
+        static std::unique_ptr<IWindow> createWindow(WindowOptions &config);
 
         virtual RegistrationToken registerKeyboardEvent(KeyboardEventCallback callback) = 0;
         virtual RegistrationToken registerPointerEvent(PointerEventCallback callback) = 0;
         virtual RegistrationToken registerSystemEvents(SystemEventsCallback callback) = 0;
 
         virtual bool setImGuiLoop(std::function<void(void)> method) = 0;
-        virtual bool updateWindowProps(WindowOptions& options) = 0;
+        virtual bool updateWindowProps(WindowOptions &options) = 0;
         virtual bool initGUI() = 0;
 
         virtual bool startEventLoop() = 0;
         virtual bool destroyWindow() = 0;
 
-        // virtual base::Vector2Di getSize() = 0;
-        // virtual base::Vector2Di getPosition() = 0;
+        virtual base::Vector2Du getSize() = 0;
+        virtual base::Vector2Di getPosition() = 0;
 
-        // virtual int32_t loadTexture(std::string texturePath) = 0;
-        // virtual ISprite* createSprite(int32_t textureId) = 0;
-        // virtual ISprite* createSprite() = 0;
-        // virtual bool removeSprite(ISprite* sprite) = 0;
+        virtual api::ISprite *createSprite(std::string textureName) = 0;
+        virtual api::ISprite *createSprite() = 0;
+        virtual bool removeSprite(api::ISprite *sprite) = 0;
+
+        virtual ITextureManager *getTextureManager() = 0;
 
         virtual ~IWindow() = default;
     };
