@@ -32,7 +32,7 @@ namespace renderer::backend::sfml
         base::Vector2Du getSize() override;
         base::Vector2Di getPosition() override;
 
-        api::ISprite *createSprite(std::string textureName) override;
+        api::ISprite *createSprite(int textureId) override;
         api::ISprite *createSprite() override;
         bool removeSprite(api::ISprite *sprite) override;
 

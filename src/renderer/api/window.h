@@ -43,7 +43,7 @@ namespace renderer::api
         virtual base::Vector2Du getSize() = 0;
         virtual base::Vector2Di getPosition() = 0;
 
-        virtual api::ISprite *createSprite(std::string textureName) = 0;
+        virtual api::ISprite *createSprite(int textureId) = 0;
         virtual api::ISprite *createSprite() = 0;
         virtual bool removeSprite(api::ISprite *sprite) = 0;
 

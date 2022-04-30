@@ -5,13 +5,13 @@
 
 namespace renderer::api
 {
-    typedef void *TextureID;
+    typedef void *TexturePtr;
 
     class ITextureManager
     {
     public:
-        virtual bool addTexture(std::string textureName, std::string texturePath) = 0;
-        virtual TextureID getTexture(std::string name) = 0;
+        virtual bool addTexture(int textureId, std::string texturePath) = 0;
+        virtual TexturePtr getTexture(int textureId) = 0;
     };
 }
 

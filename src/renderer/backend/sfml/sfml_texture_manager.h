@@ -15,14 +15,14 @@ namespace renderer::backend::sfml
     {
     public:
         TextureManager();
-        bool addTexture(std::string textureName, std::string texturePath) override;
-        api::TextureID getTexture(std::string name) override;
+        bool addTexture(int textureId, std::string texturePath) override;
+        api::TexturePtr getTexture(int textureId) override;
 
-        sf::Texture *getTextureInternal(std::string name);
-        std::shared_ptr<sf::Sprite> getSpriteInternal(std::string name);
+        sf::Texture *getTextureInternal(int textureId);
+        std::shared_ptr<sf::Sprite> createSpriteInternal(int textureId);
 
     private:
-        std::map<std::string, std::unique_ptr<sf::Texture>> _textureMap;
+        std::map<int, std::unique_ptr<sf::Texture>> _textureMap;
         std::filesystem::path _directoryPath;
     };
 }

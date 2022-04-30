@@ -158,9 +158,9 @@ namespace renderer::backend::sfml
         return {position.x, position.y};
     }
 
-    api::ISprite *Window::createSprite(std::string textureName)
+    api::ISprite *Window::createSprite(int textureId)
     {
-        auto sprite = _textureManager->getSpriteInternal(textureName);
+        auto sprite = _textureManager->createSpriteInternal(textureId);
         _spriteSet.insert(sprite);
         return dynamic_cast<api::ISprite *>(sprite.get());
     }
