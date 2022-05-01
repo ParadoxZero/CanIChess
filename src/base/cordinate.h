@@ -3,15 +3,21 @@
 
 #include <stdint.h>
 
-namespace base {
+namespace base
+{
+
+    template <class T>
     struct Vector2d
     {
-        int8_t x;
-        int8_t y;
+        T x;
+        T y;
 
-        Vector2d(int8_t x1, int8_t y1) : x(x1), y(y1) {}
-        Vector2d(const Vector2d& old) :x(old.x), y(old.y) { }
+        Vector2d(T x1, T y1) : x(x1), y(y1) {}
+        Vector2d(const Vector2d &old) : x(old.x), y(old.y) {}
     };
+
+    using Vector2Di = Vector2d<int32_t>;
+    using Vector2Du = Vector2d<uint32_t>;
 
     struct Size2D
     {
@@ -19,16 +25,39 @@ namespace base {
         unsigned int y;
 
         Size2D(unsigned int x1, unsigned int y1) : x(x1), y(y1) {}
-        Size2D(const Size2D& old) :x(old.x), y(old.y) { }
+        Size2D(const Size2D &old) : x(old.x), y(old.y) {}
     };
 
-    Vector2d operator+(Vector2d lhs, Vector2d rhs);
-    Vector2d operator-(Vector2d lhs, Vector2d rhs);
-    bool operator==(const Vector2d& lhs, const Vector2d& rhs);
-    bool operator!=(const Vector2d& lhs, const Vector2d& rhs);
+    template <class T>
+    inline Vector2d<T> operator+(Vector2d<T> lhs, Vector2d<T> rhs)
+    {
+        lhs.x += rhs.x;
+        lhs.y += rhs.y;
+        return lhs;
+    }
 
-    template<class T>
-    inline Vector2d& operator*(Vector2d& lhs, T rhs)
+    template <class T>
+    inline Vector2d<T> operator-(Vector2d<T> lhs, Vector2d<T> rhs)
+    {
+        lhs.x -= rhs.x;
+        lhs.y -= rhs.y;
+        return lhs;
+    }
+
+    template <class T>
+    inline bool operator==(const Vector2d<T> &lhs, const Vector2d<T> &rhs)
+    {
+        return lhs.x == rhs.x && lhs.y == rhs.y;
+    }
+
+    template <class T>
+    inline bool operator!=(const Vector2d<T> &lhs, const Vector2d<T> &rhs)
+    {
+        return lhs.x != rhs.x || lhs.y != rhs.y;
+    }
+
+    template <class T>
+    inline Vector2d<T> &operator*(Vector2d<T> &lhs, T rhs)
     {
         lhs.x *= rhs;
         lhs.y *= rhs;

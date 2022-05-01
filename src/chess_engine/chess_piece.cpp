@@ -7,9 +7,9 @@ namespace chess_engine {
 
 	template<class T> using ChessBoardMatrix = std::array<std::array<std::unique_ptr<T>, 8>, 8>;
 
-	const base::Vector2d ChessPiece::INVALID = { -1,-1 };
+	const base::Vector2Di ChessPiece::INVALID = { -1,-1 };
 
-	std::vector<base::Vector2d> ChessPiece::getPossibleMoves(base::Vector2d current_position, ChessBoardMatrix<ChessPiece>& map)
+	std::vector<base::Vector2Di> ChessPiece::getPossibleMoves(base::Vector2Di current_position, ChessBoardMatrix<ChessPiece>& map)
 	{
 		if(_board != nullptr && _cachedFrom == current_position)
 		{
@@ -19,13 +19,13 @@ namespace chess_engine {
 		return generatePossibleMoves(current_position, map);
 	}
 
-	std::vector<base::Vector2d> ChessPiece::getAllMoves(base::Vector2d from, ChessBoardMatrix<ChessPiece>& map)
+	std::vector<base::Vector2Di> ChessPiece::getAllMoves(base::Vector2Di from, ChessBoardMatrix<ChessPiece>& map)
 	{
 		return generatePossibleMoves(from, map, false);
 	}
 
 
-	bool ChessPiece::isValidMove(base::Vector2d from, base::Vector2d to, ChessBoardMatrix<ChessPiece>& map)
+	bool ChessPiece::isValidMove(base::Vector2Di from, base::Vector2Di to, ChessBoardMatrix<ChessPiece>& map)
 	{
 		if (_cachedFrom != from)
 		{

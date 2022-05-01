@@ -42,22 +42,22 @@ namespace chess_engine
             return board._moveHistory.size();
         }
 
-        std::vector< std::pair<base::Vector2d, base::Vector2d> > getHistory(ChessBoard& board)
+        std::vector< std::pair<base::Vector2Di, base::Vector2Di> > getHistory(ChessBoard& board)
         {
             return board._moveHistory;
         }
 
-        std::vector<base::Vector2d> getCachedMoves(ChessBoard& board, base::Vector2d from)
+        std::vector<base::Vector2Di> getCachedMoves(ChessBoard& board, base::Vector2Di from)
         {
             return board._state[from.x][from.y]->_cachedMoves;
         }
 
-        bool check(ChessBoard& board, base::Vector2d from)
+        bool check(ChessBoard& board, base::Vector2Di from)
         {
             return board.Check(from);
         }
 
-        bool AreEqual(std::vector<base::Vector2d> a, std::vector<base::Vector2d> b)
+        bool AreEqual(std::vector<base::Vector2Di> a, std::vector<base::Vector2Di> b)
         {
             for (auto i : a)
             {
@@ -126,12 +126,12 @@ namespace chess_engine
         ChessBoard board;
         MockObserver observer;
         MockObserver* observer_ptr = &observer;
-        std::vector<base::Vector2d> test_results;
-        std::vector<base::Vector2d> return_vector;
+        std::vector<base::Vector2Di> test_results;
+        std::vector<base::Vector2Di> return_vector;
         board.SubscribeToTurnNotification(observer_ptr);
         EXPECT_CALL(observer, NextTurnEvent).Times(3);
 
-        std::vector< std::pair<base::Vector2d, base::Vector2d> > history_reference;
+        std::vector< std::pair<base::Vector2Di, base::Vector2Di> > history_reference;
 
         // Valid Move - moving a white tile in first move
         EXPECT_EQ(board.getCurrentColor(), White);
@@ -248,8 +248,8 @@ namespace chess_engine
     TEST_F(ChessBoardTest, TestMoveCachingMechanics)
     {
         ChessBoard board;
-        std::vector<base::Vector2d> test_results;
-        std::vector<base::Vector2d> return_vector;
+        std::vector<base::Vector2Di> test_results;
+        std::vector<base::Vector2Di> return_vector;
 
         return_vector = board.getPossibleMoves({0,6});
         test_results = {{0,5}, {0,4}};

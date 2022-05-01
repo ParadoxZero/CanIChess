@@ -66,6 +66,10 @@
                 "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++"
             },
+            "architecture": {
+                "value": "arm64",
+                "strategy": "external"
+            },
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
@@ -76,10 +80,6 @@
             "name": "mac-arm-debug",
             "displayName": "mac-arm64 Debug",
             "inherits": "mac-arm",
-            "architecture": {
-                "value": "arm64",
-                "strategy": "external"
-            },
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
             }

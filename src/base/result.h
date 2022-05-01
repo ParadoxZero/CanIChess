@@ -8,7 +8,7 @@ namespace base
         const unsigned int SUCCESS_MASK = 0x00000000;
         const unsigned int FAILURE_MASK = 0x10000000;
     }
-    enum Result 
+    enum Result
     {
         Success = internal::SUCCESS_MASK,
         Promote,
@@ -18,7 +18,8 @@ namespace base
         Failed = internal::FAILURE_MASK,
         InvalidArgument,
         Forbidden,
-        PendingPromotion
+        PendingPromotion,
+        NotFound
     };
 }
 
@@ -26,22 +27,44 @@ typedef base::Result __Result;
 
 bool inline __succeeded(base::Result code)
 {
-    if (code & base::internal::SUCCESS_MASK) return true;
-    else return false;
+    if (code & base::internal::SUCCESS_MASK)
+        return true;
+    else
+        return false;
 }
 
 bool inline __failed(base::Result code)
 {
-    if (code & base::internal::FAILURE_MASK) return true;
-    else return false;
+    if (code & base::internal::FAILURE_MASK)
+        return true;
+    else
+        return false;
 }
 
-#define SUCCEEDED(res)          _succeeded(res)     
-#define FAILLED(res)            _failed(res)
+#define SUCCEEDED(res) _succeeded(res)
+#define FAILLED(res) _failed(res)
 
-#define RETURN_IF_FAILED(res)               {__Result __res = res; if(FAILED(_res) {return;}}
-#define RETURN_RESULT_IF_FAILED(res)        {__Result __res = res; if(FAILED(_res) {return _res;}}
-#define RETURN_VALUE_IF_FAILED(res, value)  {__Result __res = res; if(FAILED(_res) {return value;}}
+#define RETURN_IF_FAILED(res)                           \
+    {                                                   \
+        __Result __res = res; if(FAILED(_res) {return;} \
+    }
+#define RETURN_RESULT_IF_FAILED(res)                         \
+    {                                                        \
+        __Result __res = res; if(FAILED(_res) {return _res;} \
+    }
+#define RETURN_VALUE_IF_FAILED(res, value)                    \
+    {                                                         \
+        __Result __res = res; if(FAILED(_res) {return value;} \
+    }
+
+#define RETURN_BOOL_IF_FALSE(res) \
+    {                             \
+        auto __res = res;         \
+        if (!__res)               \
+        {                         \
+            return __res;         \
+        }                         \
+    }
 
 // Usage e.g. RETURN_IF_FAILED(getNextMoves(moves));
 

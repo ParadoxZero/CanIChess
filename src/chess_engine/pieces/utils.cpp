@@ -4,14 +4,14 @@
 
 namespace chess_engine::pieces {
 
-    std::vector<base::Vector2d> getPossibleMovesInDirection(base::Vector2d current_position, std::vector<base::Vector2d> directions, ChessBoardMatrix<ChessPiece>& map, bool ignore_friendly)
+    std::vector<base::Vector2Di> getPossibleMovesInDirection(base::Vector2Di current_position, std::vector<base::Vector2Di> directions, ChessBoardMatrix<ChessPiece>& map, bool ignore_friendly)
     {
         auto& current_tile = map[current_position.x][current_position.y];
-        std::vector<base::Vector2d> moveList;
+        std::vector<base::Vector2Di> moveList;
 
         for (auto& direction : directions)
         {
-            base::Vector2d next_position = current_position + direction;
+            base::Vector2Di next_position = current_position + direction;
             auto exit_condition = [&next_position, &map]() {
                 return !CheckBoardEdgeCollision(next_position) && map[next_position.x][next_position.y]->getType() == ChessPieceType::Empty;
             };

@@ -1,5 +1,6 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <base/cordinate.h>
 
 #include "imgui-SFML_export.h"
 
@@ -13,7 +14,17 @@
     template<typename T>              \
     operator sf::Vector2<T>() const { \
         return sf::Vector2<T>(x, y);  \
-    }
+    }                                 \
+    template<typename T>              \
+    ImVec2(const base::Vector2d<T>& v) { \
+        x = static_cast<float>(v.x);  \
+        y = static_cast<float>(v.y);  \
+    }                                 \
+                                      \
+    template<typename T>              \
+    operator base::Vector2d<T>() const { \
+        return base::Vector2d<T>(x, y);  \
+    }                                 \
 
 #define IM_VEC4_CLASS_EXTRA                                                                        \
     ImVec4(const sf::Color& c) : x(c.r / 255.f), y(c.g / 255.f), z(c.b / 255.f), w(c.a / 255.f) {} \
