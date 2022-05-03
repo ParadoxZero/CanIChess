@@ -64,7 +64,7 @@ namespace chess_engine
 
         bool check(ChessBoard &board, base::Vector2Di from)
         {
-            return board.Check(from);
+            return board.check(from);
         }
 
         bool AreEqual(std::vector<base::Vector2Di> a, std::vector<base::Vector2Di> b)

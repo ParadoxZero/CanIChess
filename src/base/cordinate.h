@@ -1,8 +1,8 @@
 #ifndef __BASE__CORDINATE__
 #define __BASE__CORDINATE__
 
-#include <stdint.h>
-
+#include <cstdint>
+#include <cmath>
 namespace base
 {
 
@@ -62,6 +62,14 @@ namespace base
         lhs.x *= rhs;
         lhs.y *= rhs;
         return lhs;
+    }
+
+    template <class T>
+    inline Vector2d<T> getDirection(const Vector2d<T> &from, const Vector2d<T> &to)
+    {
+        T delta_x = from.x - to.x;
+        T delta_y = from.y - to.y;
+        return {delta_x ? delta_x / abs(delta_x) : 0, delta_y ? delta_y / abs(delta_y) : 0};
     }
 }
 

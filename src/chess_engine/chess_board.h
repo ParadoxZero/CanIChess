@@ -44,11 +44,13 @@ namespace chess_engine
 
         bool NotifyNextTurn();
 
-        bool Check(base::Vector2Di from);
-        bool Checkmate(base::Vector2Di from);
-        bool checkIfKingCanMove(base::Vector2Di kingPosition, std::vector<base::Vector2Di> enemy_king_moves);
-        bool checkIfAtackerCanBeKilled(base::Vector2Di attacker, std::vector<base::Vector2Di> moveList);
-        bool CanKingBeKilled(base::Vector2Di kingPosition, ChessBoardMatrix<ChessPiece> &new_state);
-        bool Promote(base::Vector2Di from);
+        bool check(base::Vector2Di from);
+        bool checkmate(base::Vector2Di from);
+        bool isBlockableAttacker(ChessPieceType type);
+        bool canKingMove(base::Vector2Di kingPosition, std::vector<base::Vector2Di> enemy_king_moves);
+        bool canAttackerBeKilled(base::Vector2Di attacker, std::vector<base::Vector2Di> moveList);
+        bool canKingBeKilled(base::Vector2Di kingPosition, ChessBoardMatrix<ChessPiece> &new_state);
+        bool canAttackBeBlocked(base::Vector2Di attackerPos, base::Vector2Di kingPos);
+        bool promote(base::Vector2Di from);
     };
 }

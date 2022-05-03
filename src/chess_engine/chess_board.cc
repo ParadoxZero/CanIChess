@@ -1,5 +1,6 @@
 #include "chess_board.h"
 #include "chess_piece.h"
+#include "pieces/utils.h"
 #include "../base/result.h"
 
 #include <memory>
@@ -91,17 +92,17 @@ namespace chess_engine
         _moveHistory.push_back({from, to});
         result = Result::Success;
 
-        if (Check(to))
+        if (check(to))
         {
             result = Result::Check;
 
-            if (Checkmate(to))
+            if (checkmate(to))
             {
                 result = Result::Checkmate;
             }
         }
 
-        if (Promote(to))
+        if (promote(to))
         {
             _promotionCandidate.reset(new Vector2d{to.x, to.y});
             result = Result::Promote;
@@ -141,7 +142,7 @@ namespace chess_engine
         return true;
     }
 
-    bool ChessBoard::Check(base::Vector2Di from)
+    bool ChessBoard::check(base::Vector2Di from)
     {
         auto current_color = _state[from.x][from.y]->getColor();
         auto possibleMOves = _state[from.x][from.y]->getPossibleMoves(from, _state);
@@ -157,7 +158,7 @@ namespace chess_engine
         return false;
     }
 
-    bool ChessBoard::CanKingBeKilled(base::Vector2Di kingPosition, ChessBoardMatrix<ChessPiece> &new_state)
+    bool ChessBoard::canKingBeKilled(base::Vector2Di kingPosition, ChessBoardMatrix<ChessPiece> &new_state)
     {
         for (int8_t i = 0; i < new_state.size(); ++i)
         {
@@ -165,7 +166,7 @@ namespace chess_engine
             {
                 if (new_state[i][j]->getColor() != new_state[kingPosition.x][kingPosition.y]->getColor())
                 {
-                    vector<base::Vector2Di> moveList = new_state[i][j]->getAllMoves({i, j}, new_state);
+                    vector<base::Vector2Di> moveList = new_state[i][j]->getPossibleMoves({i, j}, new_state);
                     for (auto &attackedPosition : moveList)
                     {
                         if (attackedPosition == kingPosition)
@@ -178,11 +179,57 @@ namespace chess_engine
         }
         return false;
     }
-    bool ChessBoard::Checkmate(base::Vector2Di attacker)
+
+    bool ChessBoard::isBlockableAttacker(ChessPieceType type)
+    {
+        switch (type)
+        {
+        case ChessPieceType::Queen:
+        case ChessPieceType::Rook:
+        case ChessPieceType::Bishop:
+            return true;
+        default:
+            return false;
+        }
+    }
+
+    bool ChessBoard::canAttackBeBlocked(base::Vector2Di attackerPos, base::Vector2Di kingPos)
+    {
+        auto &attacker = _state[attackerPos.x][attackerPos.y];
+
+        if (!isBlockableAttacker(attacker->getType()))
+            return false;
+
+        auto attackDirection = base::getDirection(kingPos, attackerPos);
+        auto blockableAttackerPosList = pieces::getPossibleMovesInDirection(attackerPos, {attackDirection}, _state);
+        for (int x = 0; x < ChessBoard::BOARD_SIZE; ++x)
+        {
+            for (int y = 0; y < ChessBoard::BOARD_SIZE; ++y)
+            {
+                auto &tile = _state[x][y];
+                if (tile->getColor() != attacker->getColor() && tile->getType() != ChessPieceType::King)
+                {
+                    auto tileattackMoves = tile->getPossibleMoves({x, y}, _state);
+                    for (auto &tileAttackMove : tileattackMoves)
+                    {
+                        for (auto &blockablePos : blockableAttackerPosList)
+                        {
+                            if (blockablePos == tileAttackMove)
+                                return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    bool ChessBoard::checkmate(base::Vector2Di attacker)
     {
         auto victim_color = getCurrentColor();
         vector<base::Vector2Di> enemy_king_moves;
         base::Vector2Di kingOriginalPosition(-1, -1);
+
         for (int8_t i = 0; i < _state.size(); ++i)
         {
             for (int8_t j = 0; j < _state[i].size(); ++j)
@@ -190,7 +237,7 @@ namespace chess_engine
                 if (_state[i][j]->getColor() == victim_color)
                 {
                     auto moves = _state[i][j]->getPossibleMoves({i, j}, _state);
-                    if (checkIfAtackerCanBeKilled(attacker, moves))
+                    if (canAttackerBeKilled(attacker, moves))
                     {
                         if (_state[i][j]->getType() == ChessPieceType::King)
                         {
@@ -199,7 +246,7 @@ namespace chess_engine
                             new_state[i][i] = ChessPieceFactory::createEmpty();
                             enemy_king_moves = new_state[attacker.x][attacker.y]->getPossibleMoves(attacker, new_state);
                             kingOriginalPosition = attacker;
-                            return CanKingBeKilled(kingOriginalPosition, new_state);
+                            return canKingBeKilled(kingOriginalPosition, new_state);
                         }
                         return false;
                     }
@@ -213,10 +260,10 @@ namespace chess_engine
             }
         }
 
-        return !checkIfKingCanMove(kingOriginalPosition, enemy_king_moves);
+        return !canKingMove(kingOriginalPosition, enemy_king_moves) && !canAttackBeBlocked(attacker, kingOriginalPosition);
     }
 
-    bool ChessBoard::checkIfAtackerCanBeKilled(base::Vector2Di attacker, vector<base::Vector2Di> moveList)
+    bool ChessBoard::canAttackerBeKilled(base::Vector2Di attacker, vector<base::Vector2Di> moveList)
     {
         for (auto &move : moveList)
         {
@@ -228,7 +275,7 @@ namespace chess_engine
         return false;
     }
 
-    bool ChessBoard::checkIfKingCanMove(base::Vector2Di kingOriginalPosition, vector<base::Vector2Di> enemy_king_moves)
+    bool ChessBoard::canKingMove(base::Vector2Di kingOriginalPosition, vector<base::Vector2Di> enemy_king_moves)
     {
         auto victim_color = _state[kingOriginalPosition.x][kingOriginalPosition.y]->getColor();
         for (auto &kingPosition : enemy_king_moves)
@@ -237,7 +284,7 @@ namespace chess_engine
             auto new_state = getState();
             new_state[kingPosition.x][kingPosition.y] = std::move(new_state[kingOriginalPosition.x][kingOriginalPosition.y]);
             new_state[kingOriginalPosition.x][kingOriginalPosition.y] = ChessPieceFactory::createEmpty();
-            if (!CanKingBeKilled(kingPosition, new_state))
+            if (!canKingBeKilled(kingPosition, new_state))
             {
                 return true;
             }
@@ -245,7 +292,7 @@ namespace chess_engine
         return false;
     }
 
-    bool ChessBoard::Promote(base::Vector2Di from)
+    bool ChessBoard::promote(base::Vector2Di from)
     {
         auto piece = _state[from.x][from.y].get();
 
