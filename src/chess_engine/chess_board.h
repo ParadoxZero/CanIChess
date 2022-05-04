@@ -18,7 +18,7 @@ namespace chess_engine
     public:
         ChessBoard();
 
-        ChessBoard(const ChessBoard&) = delete;
+        ChessBoard(const ChessBoard &) = delete;
 
         const uint8_t BOARD_SIZE = 8;
 
@@ -38,14 +38,19 @@ namespace chess_engine
         friend class ChessBoardTest;
 
         ChessBoardMatrix<ChessPiece> _state;
-        std::vector<IObserver*> _turnObservers;
+        std::vector<IObserver *> _turnObservers;
         std::vector<std::pair<base::Vector2Di, base::Vector2Di>> _moveHistory;
         std::unique_ptr<base::Vector2Di> _promotionCandidate = nullptr;
 
         bool NotifyNextTurn();
 
-        bool Check(base::Vector2Di from);
-        bool Checkmate();
-        bool Promote(base::Vector2Di from);
+        bool check(base::Vector2Di from);
+        bool checkmate(base::Vector2Di from);
+        bool isBlockableAttacker(ChessPieceType type);
+        bool canKingMove(base::Vector2Di kingPosition, std::vector<base::Vector2Di> enemy_king_moves);
+        bool canAttackerBeKilled(base::Vector2Di attacker, std::vector<base::Vector2Di> moveList);
+        bool canKingBeKilled(base::Vector2Di kingPosition, ChessBoardMatrix<ChessPiece> &new_state);
+        bool canAttackBeBlocked(base::Vector2Di attackerPos, base::Vector2Di kingPos);
+        bool promote(base::Vector2Di from);
     };
 }
