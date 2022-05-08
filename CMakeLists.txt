@@ -10,6 +10,8 @@ include(CTest)
 set (CMAKE_CXX_STANDARD 17)
 set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 include_directories(
 	"src"
 	"deps/sfml/include"
